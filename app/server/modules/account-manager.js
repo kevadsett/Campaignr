@@ -1,3 +1,4 @@
+
 var crypto = require('crypto');
 var MongoDB = require('mongodb').Db;
 var Server = require('mongodb').Server;
@@ -17,10 +18,10 @@ db.open(function(error, database){
         console.log('connected to database:: ' + dbName);
     }
 });
-
 var accounts = db.collection('accounts');
 
 /* login validation methods */
+
 exports.autoLogin = function(user, pass, callback){
     accounts.findOne({user: user}, function(error, output){
         if(output){
@@ -38,7 +39,7 @@ exports.manualLogin = function(user, pass, callback){
         }else{
             validatePassword(pass, output.pass, function(err, res){
                 if(res){
-                    callback(output);
+                    callback(null, output);
                 }else{
                     callback("invalid-password");
                 }
@@ -49,18 +50,23 @@ exports.manualLogin = function(user, pass, callback){
 
 /* record insertion, update and deletion methods */
 exports.addNewAccount = function(newData, callback){
+	console.log("///----addNewAccount----///")
+	console.log(newData);
     accounts.findOne({user: newData.user}, function(error, output){
-        output.name = newData.name;
-        output.email = newData.email;
-        output.country = newData.country;
-        if(newData.pass = ''){
-            accounts.save(output, {safe: true}, callback);
-        }else{
-            saltAndHash(newData.pass, function(hash){
-                newData.pass = hash;
-                // append date stamp when record was created //
-                newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
-                accounts.insert(newData, {safe: true}, callback);
+		if(output){
+			callback('username-taken');
+		}else{
+			accounts.findOne({email: newData.email}, function(err, out){
+				if(out){
+					callback('email-taken');
+				}else{
+					saltAndHash(newData.pass, function(hash){
+						newData.pass = hash;
+						// append date stamp when record was created //
+						newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
+						accounts.insert(newData, {safe: true}, callback);
+					});
+				}
             });
         }
     });
@@ -129,7 +135,7 @@ var saltAndHash = function(pass, callback){
 }
 
 var validatePassword = function(plainPass, hashedPass, callback){
-    var salt = hashedPass.subStr(0, 10);
+    var salt = hashedPass.substr(0, 10);
     var validHash = salt + md5(plainPass + salt);
     callback(null, hashedPass === validHash);
 }

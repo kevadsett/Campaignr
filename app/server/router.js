@@ -4,10 +4,11 @@ var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
 
 module.exports = function(app) {
-    
-    // main login page
+
+// main login page //
 
     app.get('/', function(req, res){
+		console.log("get /");
         // check if users credentials are stored in a cookie
         if(req.cookies.user == undefined || req.cookies.pass == undefined){
             res.render('login', {title: 'Hello – Please Login To Your Account'});
@@ -23,9 +24,12 @@ module.exports = function(app) {
             });
         }
     });
-    
+
     app.post('/', function(req, res){
+		console.log("post /");
         AM.manualLogin(req.param('user'), req.param('pass'), function(error, output){
+			console.log(error);
+			console.log(output);
             if(!output){
                 res.send(error, 400);
             }else{
@@ -38,10 +42,11 @@ module.exports = function(app) {
             }
         });
     });
-    
+
     // logged-in user homepage
 
     app.get('/home', function(req, res){
+		console.log("get /home");
         if(req.session.user == null){
             // if user is not logged in, redirect them to login page
             res.redirect('/');
@@ -53,8 +58,9 @@ module.exports = function(app) {
             });
         }
     });
-    
+
     app.post('/home', function(req, res){
+		console.log("post /home");
         if(req.param('user') != undefined){
             AM.updateAccount({
                 user:       req.param('user'),
@@ -81,14 +87,16 @@ module.exports = function(app) {
             req.session.destroy(function(error){ res.send('ok', 200) });
         }
     });
-    
+
     // creating new accounts
 
     app.get('/signup', function(req, res){
+		console.log("get /signup");
         res.render('signup', {title: 'Signup', countries: CT});
     });
-    
+
     app.post('/signup', function(req, res){
+		console.log("post /signup");
         AM.addNewAccount({
             name:       req.param('name'),
             email:      req.param('email'),
@@ -103,10 +111,11 @@ module.exports = function(app) {
             }
         });
     });
-    
+
     // password reset
 
     app.post('/lost-password', function(req, res){
+		console.log("post /lost-password");
         // look up the user's account via their email
         AM.getAccountByEmail(req.param('email'), function(output){
             if(output){
@@ -126,8 +135,9 @@ module.exports = function(app) {
             }
         });
     });
-    
+
     app.get('/reset-password', function(req, res){
+		console.log("get /reset-password");
         var email = req.query["e"];
         var passH = req.query["p"];
         AM.validateResetLink(email, passH, function(response){
@@ -140,8 +150,9 @@ module.exports = function(app) {
             }
         });
     });
-    
+
     app.post('/reset-password', function(req, res){
+		console.log("post /reset-password");
         var nPass = req.param('pass');
         // retrieve the user's email from the session to lookup their account and reset password
         var email = req.session.reset.email;
@@ -155,16 +166,18 @@ module.exports = function(app) {
             }
         });
     });
-    
+
     // view and delete accounts
 
     app.get('/print', function(req, res){
+		console.log("get /print");
          AM.getAllRecords(function(error, accounts){
              res.render('print', {title: 'Account list', accts: accounts});
          });
     });
-    
+
     app.get('/delete', function(req, res){
+		console.log("get /delete");
         AM.deleteAccount(req.body.id, function(error, obj){
             if(!error){
                 res.clearCookie('user');
@@ -175,12 +188,13 @@ module.exports = function(app) {
             }
         });
     });
-    
+
     app.get('/reset', function(req, res){
+		console.log("get /reset");
         AM.delAllRecords(function(){
             res.redirect('/print');
         });
     });
-    
+
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
 };
