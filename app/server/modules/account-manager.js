@@ -1,24 +1,19 @@
-
+var dbURI = 'mongodb://kevadmin:adminpass@dharma.mongohq.com:10016/campaign-db';
+var collections = ["users"];
 var crypto = require('crypto');
-var MongoDB = require('mongodb').Db;
+var MongoJS = require('mongojs');
 var Server = require('mongodb').Server;
 var moment = require('moment');
 
-var dbPort = 27017;
-var dbHost = 'localhost';
-var dbName = 'node-login';
+var dbPort = 10016;
+var dbHost = 'dharma.mongohq.com';
+var dbName = 'campaign-db';
 
 /* establish a database connection */
 
-var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
-db.open(function(error, database){
-    if(error){
-        console.log(error);
-    }else{
-        console.log('connected to database:: ' + dbName);
-    }
-});
-var accounts = db.collection('accounts');
+var db = MongoJS.connect(dbURI, collections);
+
+var accounts = db.collection('users');
 
 /* login validation methods */
 

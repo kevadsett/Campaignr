@@ -10,6 +10,7 @@
     "stylus": "0.31.0",
     "jade": "*",
     "mongodb": "1.2.7",
+    "mongojs": "0.7.2",
     "moment": "1.7.2",
     "emailjs": "0.3.3"
   },
