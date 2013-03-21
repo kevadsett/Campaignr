@@ -17,3 +17,7 @@ var Planet = Backbone.Collection.extend({
         this.sync();
     }
 });
+
+var PlayerCollection = Backbone.Model.extend({
+    model: Player
+});

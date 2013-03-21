@@ -19,10 +19,6 @@ var Faction = Backbone.Model.extend({
     }
 });
 
-var PlayerCollection = Backbone.Model.extend({
-    model: Player
-});
-
 var Territory = Backbone.Model.extend({
     initialize: function() {
         console.log('New Territory Model Created');
