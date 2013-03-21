@@ -1,0 +1,16 @@
+{
+    "factions": [
+        {
+            "name":"Crusade of Fire",
+            "points": 0
+        },
+        {
+            "name":"Servants of Ruin",
+            "points": 0
+        },
+        {
+            "name":"Prophets of War",
+            "points": 0
+        },
+    ]
+}
