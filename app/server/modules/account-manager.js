@@ -1,19 +1,29 @@
-var dbURI = 'mongodb://kevadmin:adminpass@dharma.mongohq.com:10016/campaign-db';
+var dbURI = 'mongodb://admin:adminpass@dharma.mongohq.com:10088/campaignr';
 var collections = ["users"];
 var crypto = require('crypto');
 var MongoJS = require('mongojs');
 var Server = require('mongodb').Server;
 var moment = require('moment');
 
-var dbPort = 10016;
+var dbPort = 10088;
 var dbHost = 'dharma.mongohq.com';
-var dbName = 'campaign-db';
+var dbName = 'campaignr';
 
 /* establish a database connection */
 
 var db = MongoJS.connect(dbURI, collections);
 
+var campaigns = db.collection('campaigns');
 var accounts = db.collection('users');
+
+/*get campaign data*/
+
+exports.getCampaign = function(user){
+    campaigns.findOne({"players.name":user}, function(error, output){
+        console.log(output);
+    });    
+}
+
 
 /* login validation methods */
 

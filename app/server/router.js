@@ -51,6 +51,7 @@ module.exports = function(app) {
             // if user is not logged in, redirect them to login page
             res.redirect('/');
         }else{
+            AM.getCampaign(req.session.user.user);
             res.render('home', {
                 title : 'Control Panel',
                 countries : CT,
