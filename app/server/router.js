@@ -47,16 +47,20 @@ module.exports = function(app) {
 
     app.get('/home', function(req, res){
 		console.log("get /home");
-        if(req.session.user == null){
+        if(!req.session.user){
             // if user is not logged in, redirect them to login page
             res.redirect('/');
         }else{
-            AM.getCampaign(req.session.user.user);
-            res.render('home', {
-                title : 'Control Panel',
-                countries : CT,
-                udata : req.session.user
+            AM.getCampaigns(req.session.user.user, function(output){
+                console.log("---------- outputting campaign -----------")
+                console.log(output);
+                res.render('home', {
+                    title : 'Your campaigns',
+                    campaigns: output.campaigns,
+                    udata : req.session.user
+                });
             });
+
         }
     });
 
