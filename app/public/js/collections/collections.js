@@ -18,6 +18,14 @@ var Planet = Backbone.Collection.extend({
     }
 });
 
-var PlayerCollection = Backbone.Model.extend({
+var Players = Backbone.Collection.extend({
     model: Player
 });
+
+var Battles = Backbone.Collection.extend({
+    model: Battle
+});
+
+var Factions = Backbone.Collection.extend({
+    model: Faction
+})
