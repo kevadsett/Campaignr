@@ -1,5 +1,6 @@
 {
-  testCampaign: {
+  campaign: {
+    name: "Test Campaign 1",
     owner: "ownerPlayerName",
     players: [
       {

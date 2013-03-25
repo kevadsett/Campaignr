@@ -56,7 +56,7 @@ module.exports = function(app) {
                 console.log(output);
                 res.render('home', {
                     title : 'Your campaigns',
-                    campaigns: output.campaigns,
+                    campaigns: output,
                     udata : req.session.user
                 });
             });
