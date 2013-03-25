@@ -52,8 +52,6 @@ module.exports = function(app) {
             res.redirect('/');
         }else{
             AM.getCampaigns(req.session.user.user, function(output){
-                console.log("---------- outputting campaign -----------")
-                console.log(output);
                 res.render('home', {
                     title : 'Your campaigns',
                     campaigns: output,
