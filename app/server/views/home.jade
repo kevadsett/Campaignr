@@ -16,15 +16,15 @@ block scripts
     
 mixin campaign(campaign)
     .campaign= campaign.name
-        .owner.invisible= campaign.owner
-        .playerList.invisible
+        .owner.hidden= campaign.owner
+        .playerList.hidden
             each player in campaign.players
                 .player
                     .playerName= player.name
                     .playerFaction= player.faction
                     .playerPoints= player.points
                     .playerNotes= player.notes
-        .planetList.invisible
+        .planetList.hidden
             each planet in campaign.planets
                 .planet
                     .planetName= planet.name
