@@ -52,11 +52,11 @@ module.exports = function(app) {
             res.redirect('/');
         }else{
             AM.getCampaigns(req.session.user.user, function(output){
-                res.cookie('campaigns', output);
                 res.render('home', {
                     title : 'Your campaigns',
                     campaigns: output
                 });
+                res.cookie('campaigns', output);
             });
 
         }
