@@ -56,7 +56,6 @@ module.exports = function(app) {
                     title : 'Your campaigns',
                     campaigns: output
                 });
-                res.cookie('campaigns', output);
             });
 
         }
