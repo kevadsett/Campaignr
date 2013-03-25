@@ -1,7 +1,11 @@
 extends layout
 
 block content
-    #campaigns=campaigns[0].testCampaign.owner
+    #campaignList
+        each campaignObject in campaigns
+            - campaign = campaignObject.campaign;
+            - console.log(campaign)
+            li= campaign.name
     
 block scripts
     script(src='/vendor/jquery.min.js')
