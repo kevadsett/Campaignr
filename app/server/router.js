@@ -54,8 +54,7 @@ module.exports = function(app) {
             AM.getCampaigns(req.session.user.user, function(output){
                 res.render('home', {
                     title : 'Your campaigns',
-                    campaigns: output,
-                    udata : req.session.user
+                    campaigns: output
                 });
             });
 

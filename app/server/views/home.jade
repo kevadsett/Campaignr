@@ -3,9 +3,7 @@ extends layout
 block content
     #campaignList
         each campaignObject in campaigns
-            - campaign = campaignObject.campaign;
-            - console.log(campaign)
-            li= campaign.name
+            mixin campaign(campaignObject.campaign)
     
 block scripts
     script(src='/vendor/jquery.min.js')
@@ -15,3 +13,25 @@ block scripts
     script(src='/js/views/home.js')
     script(src='/js/controllers/homeController.js')
     script(src='/js/form-validators/accountValidator.js')
+    
+mixin campaign(campaign)
+    .campaign= campaign.name
+        .owner.invisible= campaign.owner
+        .playerList.invisible
+            each player in campaign.players
+                .player
+                    .playerName= player.name
+                    .playerFaction= player.faction
+                    .playerPoints= player.points
+                    .playerNotes= player.notes
+        .planetList.invisible
+            each planet in campaign.planets
+                .planet
+                    .planetName= planet.name
+                    .territoryList
+                        each territory in planet.territories
+                            .territory
+                                .territoryOwner= territory.owner
+                                .territoryType= territory.type
+                                .territoryNotes= territory.notes
+                    .planetNotes= planet.notes
