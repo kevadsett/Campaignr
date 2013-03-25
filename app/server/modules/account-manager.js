@@ -19,7 +19,7 @@ var accounts = db.collection('users');
 /*get campaign data*/
 
 exports.getCampaigns = function(user, callback){
-    campaigns.find({'testCampaign.players.name':user}, function(error, output){
+    campaigns.find({'campaign.players.name':user}, function(error, output){
         output!== null ? callback(output) : callback(null);
     });    
 }
