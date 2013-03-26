@@ -1,6 +1,10 @@
 extends layout
 
+    
 block content
+    script
+        var campaigns = !{JSON.stringify(campaigns)};
+        console.log(campaigns);
     #campaignList
         each campaignObject in campaigns
             mixin campaign(campaignObject.campaign)
