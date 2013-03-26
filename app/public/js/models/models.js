@@ -1,21 +1,43 @@
+var App = Backbone.View.extend({
+    initialize: function(){
+        console.log('app');
+        Campaigns.fetch();
+    }
+})
+
 var Campaign = Backbone.Model.extend({
     initialize: function() {
         console.log("new campaign");
-        this.players = new Players();
-        this.planets = [];
-        this.battles = new Battles();
-        this.factions = new Factions();
     },
-    
+    parse: function(resp){
+        var d = resp.campaign;
+        var Planets = _.reduce(d.planets, function(planets, planet){
+            var p = new Planet(planet.territories);
+            p.collectionAttr("name", planet.name);
+            planets.push(p);
+            return planets;
+        }, []);
+        resp = {
+            _id:resp._id,
+            name: d.name,
+            owner: d.owner,
+            battles: new Battles(d.battles),
+            factions: new Factions(d.factions),
+            players: new Players(d.players),
+            planets:Planets
+        }
+        console.log(resp);
+        return resp;
+    }
 });
 
 var Player = Backbone.Model.extend({
-    defaults:{
+    defaults: {
         name: "UnsetPlayerName",
         points: 0,
         notes: []
     },
-    intialize:function(){
+    intialize: function(){
         console.log("New Player model created");
     }
 });
@@ -28,12 +50,12 @@ var Battle = Backbone.Model.extend({
 });
 
 var Faction = Backbone.Model.extend({
-    defaults:{
+    defaults: {
         name: 'UnsetFactionName',
         points: 0
     },
-    intialize:function(){
-        //this.set({players: new PlayerCollection()});
+    intialize: function(){
+        console.log('new faction');
     }
 });
 

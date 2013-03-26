@@ -5,7 +5,16 @@ var EM = require('./modules/email-dispatcher');
 
 module.exports = function(app) {
 
-// main login page //
+    //get campaign//
+    app.get('/db', function(req, res){
+        AM.getCampaigns(req.session.user.user, function(output){
+            res.send(output);
+        })
+    })
+    
+    
+    
+    // main login page //
 
     app.get('/', function(req, res){
 		console.log("get /");

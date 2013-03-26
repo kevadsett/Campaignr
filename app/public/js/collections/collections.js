@@ -1,31 +1,40 @@
+var CampaignCollection = Backbone.Collection.extend({
+    model: Campaign,
+    url: '/db',
+    initialize: function() {
+        console.log('cmpans');
+        this.on('change', this.render, this);
+    },
+    render: function(){
+        console.log(this);
+    }
+})
+var Campaigns = new CampaignCollection();
+
 var Planet = Backbone.Collection.extend({
     model: Territory,
     initialize: function() {
-        this.attributes = {};
         console.log('New Planet Collection Created');
-        this.on('add', console.log('Territory Pushed'));
-        this.on('change', this.update, this);
-    },
-    attribute: function(attr, val){
-        if(val){
-            this.atrributes[attr] = val;
-            return true;
-        }
-        return this.attributes[attr] ;
-    },
-    update: function() {
-        this.sync();
     }
 });
 
 var Players = Backbone.Collection.extend({
-    model: Player
+    model: Player,
+    initialize: function() {
+        console.log('playas');
+    }
 });
 
 var Battles = Backbone.Collection.extend({
-    model: Battle
+    model: Battle,
+    initialize: function() {
+        console.log('bttls');
+    }
 });
 
 var Factions = Backbone.Collection.extend({
-    model: Faction
+    model: Faction,
+    initialize: function() {
+        console.log('fctns');
+    }
 })

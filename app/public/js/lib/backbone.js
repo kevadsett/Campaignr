@@ -538,7 +538,8 @@
     // **parse** converts a response into the hash of attributes to be `set` on
     // the model. The default implementation is just to pass the response along.
     parse: function(resp, options) {
-      return resp;
+        console.log(resp);
+        return resp;
     },
 
     // Create a new model with identical attributes to this one.
