@@ -1,6 +1,6 @@
 var App = Backbone.View.extend({
     initialize: function(){
-        Campaigns.on('loaded', this.onCampaignLoaded);
+       
         console.log('app');
         Campaigns.fetch({success:function(){
             console.log(Campaigns);
