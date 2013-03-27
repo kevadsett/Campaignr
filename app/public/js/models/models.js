@@ -1,14 +1,21 @@
 var App = Backbone.View.extend({
     initialize: function(){
+        Campaigns.on('loaded', this.onCampaignLoaded);
         console.log('app');
-        Campaigns.fetch();
+        Campaigns.fetch({success:function(){
+            console.log(Campaigns);
+            Campaigns.trigger('loaded');
+        }});
+    },
+    onCampaignLoaded:function(){
+        console.log("stuff is happening");
     }
 })
 
 var Campaign = Backbone.Model.extend({
     initialize: function() {
         console.log("new campaign");
-        console.log(this.toJSON());
+        //console.log(this.toJSON());
     },
     parse: function(resp){
         var d = resp.campaign;
@@ -27,7 +34,7 @@ var Campaign = Backbone.Model.extend({
             factions: new Factions(d.factions),
             planets:Planets
         }
-        console.log(resp);
+        //console.log(resp);
         return resp;
     },
     clone:function(){
@@ -43,13 +50,13 @@ var Player = Backbone.Model.extend({
         notes: []
     },
     initialize: function(){
-        console.log("New Player model created");
+        //console.log("New Player model created");
     }
 });
 
 var Battle = Backbone.Model.extend({
     initialize: function() {
-        console.log("new battle");
+        //console.log("new battle");
     }
 
 });
@@ -60,13 +67,13 @@ var Faction = Backbone.Model.extend({
         points: 0
     },
     initialize: function(){
-        console.log('new faction');
+        //console.log('new faction');
     }
 });
 
 var Territory = Backbone.Model.extend({
     initialize: function() {
-        console.log("New Territory Model Created");
+        //console.log("New Territory Model Created");
     },
     defaults: {
         type: "Default Type",

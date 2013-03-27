@@ -2,7 +2,6 @@ var CampaignCollection = Backbone.Collection.extend({
     model: Campaign,
     url: '/db',
     initialize: function() {
-        console.log('cmpans');
         this.on('change', this.render, this);
     },
     render: function(){
@@ -14,27 +13,27 @@ var Campaigns = new CampaignCollection();
 var Planet = Backbone.Collection.extend({
     model: Territory,
     initialize: function() {
-        console.log('New Planet Collection Created');
+        //console.log('New Planet Collection Created');
     }
 });
 
 var Players = Backbone.Collection.extend({
     model: Player,
     initialize: function() {
-        console.log('playas');
+        //console.log('players');
     }
 });
 
 var Battles = Backbone.Collection.extend({
     model: Battle,
     initialize: function() {
-        console.log('bttls');
+        //console.log('battles');
     }
 });
 
 var Factions = Backbone.Collection.extend({
     model: Faction,
     initialize: function() {
-        console.log('fctns');
+        //console.log('factions');
     }
 })
