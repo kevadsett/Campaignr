@@ -5,9 +5,7 @@ block content
     script
         var campaigns = !{JSON.stringify(campaigns)};
         console.log(campaigns);
-    #campaignList
-        each campaignObject in campaigns
-            mixin campaign(campaignObject.campaign)
+    canvas.battleChart(width="400", height="400")
     
 block scripts
     script(src='/vendor/jquery.min.js')

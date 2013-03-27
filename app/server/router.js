@@ -178,7 +178,9 @@ module.exports = function(app) {
         });
     });
 
-   
+   app.post('/myUserName', function(req, res){
+       res.send(req.session.user.user, 200);
+   });
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
 };

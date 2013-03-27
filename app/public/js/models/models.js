@@ -3,7 +3,6 @@ var App = Backbone.View.extend({
        
         console.log('app');
         Campaigns.fetch({success:function(){
-            console.log(Campaigns);
             Campaigns.trigger('loaded');
         }});
     },
