@@ -1,20 +1,24 @@
 var App = Backbone.View.extend({
     initialize: function(){
         console.log('app');
-        Campaigns.fetch();
+        Campaigns.fetch({success: function(){
+            console.log(Campaigns.toJSON());
+        }});
+       // console.log(Campaigns);
     }
 })
 
 var Campaign = Backbone.Model.extend({
     initialize: function() {
         console.log("new campaign");
-        console.log(this.toJSON());
+        //console.log(this.toJSON());
     },
     parse: function(resp){
         var d = resp.campaign;
         var Planets = _.reduce(d.planets, function(planets, planet){
             var p = new Planet(planet.territories);
             p.collectionAttr("name", planet.name);
+            p.collectionAttr("notes", planet.notes);
             planets.push(p);
             return planets;
         }, []);
@@ -30,9 +34,28 @@ var Campaign = Backbone.Model.extend({
         console.log(resp);
         return resp;
     },
-    clone:function(){
-        
-    
+    toJSON:function(){
+        var Planets = _.reduce(this.planets, function(planets, planet){
+            alert('planets');
+            var p = {
+                name: planet.collectionAttr("name"),
+                notes: planet.collectionAttr("notes"),
+                territories: planet.models.toJSON()
+            }
+            planets.push(p);
+            console.log(planets);
+            return planets;
+        }, [])
+        var resp = {
+            _id: this.get('_id'),
+            campaign: {
+                battles: this.get('battles').toJSON(),
+                factions: this.get('factions').toJSON(),
+                players: this.get('players').toJSON(),
+                planets: Planets
+            }
+        };
+        return resp;
     }
 });
 
@@ -43,13 +66,13 @@ var Player = Backbone.Model.extend({
         notes: []
     },
     initialize: function(){
-        console.log("New Player model created");
+
     }
 });
 
 var Battle = Backbone.Model.extend({
     initialize: function() {
-        console.log("new battle");
+
     }
 
 });
@@ -60,13 +83,13 @@ var Faction = Backbone.Model.extend({
         points: 0
     },
     initialize: function(){
-        console.log('new faction');
+       
     }
 });
 
 var Territory = Backbone.Model.extend({
     initialize: function() {
-        console.log("New Territory Model Created");
+
     },
     defaults: {
         type: "Default Type",
