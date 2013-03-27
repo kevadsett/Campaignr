@@ -178,34 +178,7 @@ module.exports = function(app) {
         });
     });
 
-    // view and delete accounts
-
-    app.get('/print', function(req, res){
-		console.log("get /print");
-         AM.getAllRecords(function(error, accounts){
-             res.render('print', {title: 'Account list', accts: accounts});
-         });
-    });
-
-    app.get('/delete', function(req, res){
-		console.log("get /delete");
-        AM.deleteAccount(req.body.id, function(error, obj){
-            if(!error){
-                res.clearCookie('user');
-                res.clearCookie('pass');
-                req.session.destroy(function(err) { res.send('ok', 200) });
-            }else{
-                res.send('record not found', 400);
-            }
-        });
-    });
-
-    app.get('/reset', function(req, res){
-		console.log("get /reset");
-        AM.delAllRecords(function(){
-            res.redirect('/print');
-        });
-    });
+   
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
 };

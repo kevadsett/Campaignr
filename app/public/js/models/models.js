@@ -8,6 +8,7 @@ var App = Backbone.View.extend({
 var Campaign = Backbone.Model.extend({
     initialize: function() {
         console.log("new campaign");
+        console.log(this.toJSON());
     },
     parse: function(resp){
         var d = resp.campaign;
@@ -21,13 +22,17 @@ var Campaign = Backbone.Model.extend({
             _id:resp._id,
             name: d.name,
             owner: d.owner,
+            players: new Players(d.players),
             battles: new Battles(d.battles),
             factions: new Factions(d.factions),
-            players: new Players(d.players),
             planets:Planets
         }
         console.log(resp);
         return resp;
+    },
+    clone:function(){
+        
+    
     }
 });
 
@@ -37,7 +42,7 @@ var Player = Backbone.Model.extend({
         points: 0,
         notes: []
     },
-    intialize: function(){
+    initialize: function(){
         console.log("New Player model created");
     }
 });
@@ -54,7 +59,7 @@ var Faction = Backbone.Model.extend({
         name: 'UnsetFactionName',
         points: 0
     },
-    intialize: function(){
+    initialize: function(){
         console.log('new faction');
     }
 });
