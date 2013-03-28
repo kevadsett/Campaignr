@@ -7,6 +7,7 @@ $(document).ready(function(){
         currentCampaign = Campaigns.at(0);
         getMyBattles(function(battles){
             console.log("battles gotten");
+            console.log("Number of battles: " + battles.length);
             calculateBattleStats(battles, true, drawBattleStatsChart);
         });
     });
@@ -14,46 +15,66 @@ $(document).ready(function(){
     function drawBattleStatsChart(battleStats){
         var iWonAgainst = battleStats.wins;
         var iLostAgainst = battleStats.loses;
-        var chartLabels = [];
-        var winData = [];
-        var loseData = [];
-        _.each(iWonAgainst, function(element, index){
-            if(chartLabels.indexOf(index.toString()) == -1){
-                chartLabels.push(index.toString());
-                winData.push(iWonAgainst[index]);
+        console.log(iWonAgainst, iLostAgainst);
+        setUpChartLabels(iWonAgainst, iLostAgainst, function(labels){
+            console.log("labels: " + labels);
+            var winData = new Array(labels.length);
+            var loseData = new Array(labels.length);
+            _.each(iWonAgainst, function(element, index){
+                var i = labels.indexOf(index);
+                winData[i] = iWonAgainst[index];
                 if(iLostAgainst[index] == undefined){
-                    winData.push(0);
+                    loseData[i] = 0;
                 }
-            }
+            });
+            _.each(iLostAgainst, function(element, index){
+                var i = labels.indexOf(index);
+                loseData[i] = iLostAgainst[index];
+                if(iWonAgainst[index] == undefined){
+                    winData[i] = 0;
+                }
+            });
+            
+            
+            drawChart(winData, loseData, labels);
         });
-        _.each(iLostAgainst, function(element, index){
-            if(chartLabels.indexOf(index.toString()) == -1){
-                chartLabels.push(index.toString());
-            }
-            loseData.push(iLostAgainst[index]);
-            if(iWonAgainst[index] == undefined){
-                loseData.push(0);
-            }
-        });
-        console.log("chartLabels: " + chartLabels);
-        console.log("winData: " + winData);
-        console.log("loseData: " + loseData);
         
-        var ctx = document.getElementByID('battleCanvas').getContext('2d');
+    }
+    function drawChart(winData, loseData, labels){
+        var canvas = $('.battleChart');
+        var ctx = canvas.get(0).getContext('2d');
         var data = {
-            labels: chartLabels,
+            labels: labels,
             datasets: [
                 {
                     fillColor: "rgba(220,220,220,0.5)",
                     strokeColor: "rgba(220,220,220,1)",
                     pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff"
+                    pointStrokeColor: "#fff",
+                    data: winData
                 },
                 {
+                    fillColor: "rgba(151,187,205,0.5)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    data: loseData
                 }
             ]
         };
         var battleChart = new Chart(ctx).Radar(data);
+    }
+    
+    function setUpChartLabels(iWonAgainst, iLostAgainst, callback){
+        var labels = [];
+        _.each(iWonAgainst, function(element, index){
+            labels.push(index);
+        });
+        
+        _.each(iLostAgainst, function(element, index){
+            if(labels.indexOf(index) == -1) labels.push(index);
+        });
+        callback(labels);
     }
 
     function getMyBattles(callback){
