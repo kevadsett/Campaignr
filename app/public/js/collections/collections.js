@@ -38,3 +38,19 @@ var Factions = Backbone.Collection.extend({
         console.log('fctns');
     }
 })
+
+var App = Backbone.View.extend({
+    initialize: function() {
+        Campaigns.fetch({success: function(){
+            console.log(Campaigns.toJSON());    
+        }});
+        this.render();
+        
+    },
+    render: function() {
+        var template = Handlebars.templates['main']; 
+        var context = Campaigns.toJSON();
+        var html    = template(context)
+        $('body').append(html);
+    }
+})

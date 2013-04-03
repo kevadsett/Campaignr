@@ -2,12 +2,7 @@ extends layout
 
     
 block content
-    script
-        var campaigns = !{JSON.stringify(campaigns)};
-        console.log(campaigns);
-    #campaignList
-        each campaignObject in campaigns
-            mixin campaign(campaignObject.campaign)
+    
     
 block scripts
     script(src='/vendor/jquery.min.js')
@@ -16,30 +11,11 @@ block scripts
     script(src='/vendor/bootstrap-transition.js')
     script(src='/js/lib/_.js')
     script(src='/js/lib/backbone.js')
+    script(src='/js/lib/handlebars.js')
+    script(src='/js/views/main.js')
+    script(src='/js/router.js')
     script(src='/js/models/models.js')
     script(src='/js/collections/collections.js')
-    script(src='/js/views/home.js')
     script(src='/js/controllers/homeController.js')
     script(src='/js/form-validators/accountValidator.js')
     
-mixin campaign(campaign)
-    .campaign= campaign.name
-        .owner.hidden= campaign.owner
-        .playerList.hidden
-            each player in campaign.players
-                .player
-                    .playerName= player.name
-                    .playerFaction= player.faction
-                    .playerPoints= player.points
-                    .playerNotes= player.notes
-        .planetList.hidden
-            each planet in campaign.planets
-                .planet
-                    .planetName= planet.name
-                    .territoryList
-                        each territory in planet.territories
-                            .territory
-                                .territoryOwner= territory.owner
-                                .territoryType= territory.type
-                                .territoryNotes= territory.notes
-                    .planetNotes= planet.notes

@@ -60,39 +60,15 @@ module.exports = function(app) {
             // if user is not logged in, redirect them to login page
             res.redirect('/');
         }else{
-            AM.getCampaigns(req.session.user.user, function(output){
-                res.render('home', {
-                    title : 'Your campaigns',
-                    campaigns: output
-                });
+            res.render('home', {
+                title : 'Campaignr'
             });
-
         }
     });
 
     app.post('/home', function(req, res){
 		console.log("post /home");
-        if(req.param('user') != undefined){
-            AM.updateAccount({
-                user:       req.param('user'),
-                name:       req.param('name'),
-                email:      req.param('email'),
-                country:    req.param('country'),
-                pass:       req.param('pass'),
-            }, function(error, output){
-                if(error){
-                    res.send('error-updating-account', 400);
-                }else{
-                    req.session.user = output;
-                    // update the user's login cookies if they exist
-                    if(req.cookies.user != undefined && req.cookies.pass != undefined){
-                        res.cookie('user', output.user, { maxAge: 900000 });
-                        res.cookie('pass', output.pass, { maxAge: 900000 });
-                    }
-                    res.send('ok', 200);
-                }
-            });
-        }else if(req.param('logout') == 'true'){
+        if(req.param('logout') == 'true'){
             res.clearCookie('user');
             res.clearCookie('pass');
             req.session.destroy(function(error){ res.send('ok', 200) });

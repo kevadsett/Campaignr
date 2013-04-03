@@ -1,17 +1,8 @@
-var App = Backbone.View.extend({
-    initialize: function(){
-        console.log('app');
-        Campaigns.fetch({success: function(){
-            console.log(Campaigns.toJSON());
-        }});
-       // console.log(Campaigns);
-    }
-})
+
 
 var Campaign = Backbone.Model.extend({
     initialize: function() {
         console.log("new campaign");
-        //console.log(this.toJSON());
     },
     parse: function(resp){
         var d = resp.campaign;

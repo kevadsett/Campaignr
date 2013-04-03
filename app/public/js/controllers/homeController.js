@@ -1,7 +1,11 @@
-
+$(document).ready(function() {
+    var app = new App();
+})
+    
 function HomeController()
 {
-
+   
+/*
 // bind event listeners to button clicks //
 	var that = this;
 
@@ -64,4 +68,5 @@ HomeController.prototype.onUpdateSuccess = function()
 	$('.modal-alert .modal-body p').html('Your account has been updated.');
 	$('.modal-alert').modal('show');
 	$('.modal-alert button').off('click');
+    */
 }
