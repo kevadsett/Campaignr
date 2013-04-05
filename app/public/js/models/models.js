@@ -40,6 +40,7 @@ var Campaign = Backbone.Model.extend({
         var resp = {
             _id: this.get('_id'),
             campaign: {
+                name: this.get('name'),
                 battles: this.get('battles').toJSON(),
                 factions: this.get('factions').toJSON(),
                 players: this.get('players').toJSON(),

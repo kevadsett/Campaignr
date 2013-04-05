@@ -48,9 +48,10 @@ var App = Backbone.View.extend({
         
     },
     render: function() {
-        var template = Handlebars.templates['main']; 
-        var context = Campaigns.toJSON();
-        var html    = template(context)
-        $('body').append(html);
+        var template = Handlebars.templates["main"];
+        $('body').append(template);
+        var template2 = Handlebars.templates["home"];
+        var html = template2({campaigns: Campaigns.toJSON()});
+        $('#content').append(html);
     }
 })
