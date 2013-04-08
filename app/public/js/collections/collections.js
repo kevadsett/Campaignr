@@ -41,17 +41,22 @@ var Factions = Backbone.Collection.extend({
 
 var App = Backbone.View.extend({
     initialize: function() {
+        var self = this;
         Campaigns.fetch({success: function(){
-            //console.log(Campaigns.toJSON());    
+            //console.log(Campaigns.toJSON());
+            self.render();
         }});
-        this.render();
+        
         
     },
     render: function() {
         var template = Handlebars.templates["main"];
         $('body').append(template);
         var template2 = Handlebars.templates["home"];
-        var html = template2({campaigns: Campaigns.toJSON()});
+        console.log(Campaigns);
+        var campaignData = {campaigns: Campaigns.toJSON()};
+        console.log(campaignData);
+        var html = template2(campaignData);
         $('#content').append(html);
     }
 })
