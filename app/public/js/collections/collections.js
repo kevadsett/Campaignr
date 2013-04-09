@@ -52,11 +52,11 @@ var App = Backbone.View.extend({
     render: function() {
         var template = Handlebars.templates["main"];
         $('body').append(template);
-        var template2 = Handlebars.templates["home"];
+        var template2 = Handlebars.templates["newCampaign"];
         console.log(Campaigns);
         var campaignData = {campaigns: Campaigns.toJSON()};
         console.log(campaignData);
-        var html = template2(campaignData);
+        var html = template2({campaignURL: "campaign12345"});
         $('#content').append(html);
     }
 })
