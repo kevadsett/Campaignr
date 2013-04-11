@@ -1,13 +1,16 @@
 <div id="campaignBuilder">
     <div id="campaignHeader">
         <form id="newCampaignForm">
-            <input name="campaignName" placeholder="Campaign Name"></input>
-            <div id="url" class="invisible">
-            </div>
-            <button action="submit" name="Submit">Add campaign</button>
+            <input name="campaignName" placeholder="Campaign Name" />
+            <input type="submit" value="Add campaign" />
         </form>
-        
-        <div id="submitButton">
+        <div id="url" class="invisible">
+        </div>
+        <div class="planetCreator hidden">
+            <form class="newPlanet">
+                <input name="planetName" placeholder="Planet name"></input>
+                <input type="number" name="territories"></input>
+            </form>
         </div>
     </div>
     <div id="planetCreation">

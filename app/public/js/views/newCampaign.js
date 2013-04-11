@@ -6,6 +6,6 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   
 
 
-  return "<div id=\"campaignBuilder\">\r\n    <div id=\"campaignHeader\">\r\n        <form id=\"newCampaignForm\">\r\n            <input name=\"campaignName\" placeholder=\"Campaign Name\"></input>\r\n            <div id=\"url\" class=\"invisible\">\r\n            </div>\r\n            <button action=\"submit\" name=\"Submit\">Add campaign</button>\r\n        </form>\r\n        \r\n        <div id=\"submitButton\">\r\n        </div>\r\n    </div>\r\n    <div id=\"planetCreation\">\r\n    </div>\r\n</div>";
+  return "<div id=\"campaignBuilder\">\r\n    <div id=\"campaignHeader\">\r\n        <form id=\"newCampaignForm\">\r\n            <input name=\"campaignName\" placeholder=\"Campaign Name\"></input>\r\n            <div id=\"url\" class=\"invisible\">\r\n            </div>\r\n            <input type=\"submit\" value=\"Add campaign\" />\r\n        </form>\r\n        \r\n        <div class=\"planetCreator hidden\">\r\n            <form class=\"newPlanet\">\r\n                <input name=\"planetName\" placeholder=\"Planet name\"></input>\r\n                <input type=\"number\" name=\"territories\"></input>\r\n            </form>\r\n        </div>\r\n    </div>\r\n    <div id=\"planetCreation\">\r\n    </div>\r\n</div>";
   });
 })();
