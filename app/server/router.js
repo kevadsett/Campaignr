@@ -154,7 +154,13 @@ module.exports = function(app) {
         });
     });
 
-   
+    app.post('/newCampaign', function(req, res){
+        console.log("post /newCampaign");
+        console.log(req.body);
+        res.render('home', {
+            title : 'Campaignr'
+        });
+    });
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
 };

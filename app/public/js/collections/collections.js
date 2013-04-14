@@ -58,5 +58,6 @@ var App = Backbone.View.extend({
         console.log(campaignData);
         var html = template2({campaignURL: "campaign12345"});
         $('#content').append(html);
+        this.trigger('appRendered');
     }
 })
