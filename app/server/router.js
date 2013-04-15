@@ -7,8 +7,20 @@ module.exports = function(app) {
 
     //get campaign//
     app.get('/db', function(req, res){
-        AM.getCampaigns(req.session.user.user, function(output){
-            res.send(output);
+        var campaignList = [];
+        AM.getCampaignsOwnedByMe(req.session.user.user, function(output){
+            console.log("campaigns owned by me: " + output);
+            for(var i=0; i<output.length; i++){
+                campaignList.push(output[i]);
+            }
+            AM.getCampaignsIPlayInButDontOwn(req.session.user.user, function(output){
+                console.log("campaigns I play in but don't own: " + output);
+                for(var j=0; i<output.length; j++){
+                    campaignList.push(output[j]);
+                }
+                console.log(campaignList);
+                res.send(campaignList);
+            })
         })
     })
     

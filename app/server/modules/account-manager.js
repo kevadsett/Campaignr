@@ -18,15 +18,21 @@ var accounts = db.collection('users');
 
 /*get campaign data*/
 
-exports.getCampaigns = function(user, callback){
-    campaigns.find({'campaign.players.name':user}, function(error, output){
+exports.getCampaignsOwnedByMe = function(user, callback){
+    campaigns.find({'campaign.owner':"ownerPlayerName"}, function(error, output){
         output!== null ? callback(output) : callback(null);
-    });    
-}
+    });  
+};
+
+exports.getCampaignsIPlayInButDontOwn = function(user, callback){
+    campaigns.find({'campaign.owner':{$ne: "ownerPlayerName"}, 'campaign.players.name':"ownerPlayerName"}, function(error, output){
+        output!== null ? callback(output) : callback(null);
+    });
+};
 
 exports.addCampaign = function(campaignData, callback){
     campaigns.insert(campaignData, {safe: true}, callback)
-}
+};
 
 /* login validation methods */
 
