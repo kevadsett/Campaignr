@@ -24,6 +24,9 @@ exports.getCampaigns = function(user, callback){
     });    
 }
 
+exports.addCampaign = function(campaignData, callback){
+    campaigns.insert(campaignData, {safe: true}, callback)
+}
 
 /* login validation methods */
 

@@ -156,7 +156,28 @@ module.exports = function(app) {
 
     app.post('/newCampaign', function(req, res){
         console.log("post /newCampaign");
-        console.log(req.body);
+        var campaign = {};
+        var data = req.body;
+        campaign.name = data.campaignName;
+        campaign.owner = req.session.user.user;
+        campaign.planets = [];
+        for(var i=0; i<data.planetName.length; i++){
+            var planetData = {};
+            planetData.name = data.planetName[i];
+            planetData.territories = [];
+            for(var j=0; j<data.territories[i]; j++){
+                var territoryData = {};
+                territoryData.id = planetData.name + "_ter_" + j;
+                planetData.territories.push(territoryData);
+            }
+            campaign.planets.push(planetData);
+        }
+        var campaignObject = {campaign: campaign};
+        console.log(campaignObject);
+        
+        AM.addCampaign(campaignObject, function(data){
+            console.log(data);
+        });
         res.render('home', {
             title : 'Campaignr'
         });
