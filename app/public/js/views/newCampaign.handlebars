@@ -1,23 +1,21 @@
-<div id="campaignBuilder">
-    <div id="campaignHeader"></div>
-    <form id="newCampaignForm" action="newCampaign" method="post">
-        <input name="campaignName" placeholder="Campaign Name" id="campaignNameTxt"/>
-        <div class="planetCreator hidden">
-            <div id="planetList">
-                <div class="newPlanet" id="newPlanet0">
-                    <input name="planetName" placeholder="Planet name" class="planetNameTxt></input>
-                    <label name="territoryCount">Number of territories:</label>
-                    <input type="number" name="territories"></input>
-                </div>
-            </div>
-            <div id="newPlanetButton">
-                <a href="#">+</a>
+<div id="campaignHeader"></div>
+<form id="newCampaignForm" action="newCampaign" method="post">
+    <input name="campaignName" placeholder="New Campaign Name" id="campaignNameTxt"/>
+    <div class="planetCreator hidden">
+        <div id="planetList">
+            <div class="newPlanet" id="newPlanet0">
+                <input name="planetName" placeholder="Planet name" class="planetNameTxt"></input>
+                <label name="territoryCount">Number of territories:</label>
+                <input type="number" name="territories"></input>
             </div>
         </div>
-        <input type="submit" value="Done" />
-    </form>
-    <div id="url" class="hidden">
+        <div id="newPlanetButton">
+            <a href="#">+</a>
+        </div>
     </div>
-    <div id="planetCreation">
-    </div>
+    <input type="submit" value="Done" id="createCampaignBtn" class="hidden" />
+</form>
+<div id="url" class="hidden">
+</div>
+<div id="planetCreation">
 </div>

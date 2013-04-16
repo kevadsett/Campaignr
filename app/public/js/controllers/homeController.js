@@ -5,8 +5,10 @@ $(document).ready(function() {
         $('#campaignNameTxt').keyup(function(){
             if(this.value !== ""){
                 $('.planetCreator').removeClass('hidden');
+                $('#createCampaignBtn').removeClass('hidden');
             }else{
                 $('.planetCreator').addClass('hidden');
+                $('#createCampaignBtn').addClass('hidden');
             }
         });
         
