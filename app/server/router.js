@@ -7,6 +7,12 @@ module.exports = function(app) {
 
     //get campaign//
     app.get('/db', function(req, res){
+        console.log("get /db");
+        AM.getCampaigns(req.session.user.user, function(out){
+            console.log("/db:      "+out);
+            res.send(out);
+        });
+/*
         var campaignList = [];
         AM.getCampaignsOwnedByMe(req.session.user.user, function(output){
             console.log("campaigns owned by me: " + output);
@@ -22,14 +28,15 @@ module.exports = function(app) {
                 res.send(campaignList);
             })
         })
+*/
     })
     
     
     
     // main login page //
 
-    app.get('/', function(req, res){
-		console.log("get /");
+    app.get('/login', function(req, res){
+		console.log("get /login");
         // check if users credentials are stored in a cookie
         if(req.cookies.user == undefined || req.cookies.pass == undefined){
             res.render('login', {title: 'Hello – Please Login To Your Account'});
@@ -38,7 +45,7 @@ module.exports = function(app) {
             AM.autoLogin(req.cookies.user, req.cookies.pass, function(output){
                 if(output != null){
                     req.session.user = output;
-                    res.redirect('/home');
+                    res.redirect('/');
                 }else{
                     res.render('login', {title: 'Hello – Please Login To Your Account'});
                 }
@@ -46,11 +53,11 @@ module.exports = function(app) {
         }
     });
 
-    app.post('/', function(req, res){
-		console.log("post /");
+    app.post('/login', function(req, res){
+		console.log("post /login");
         AM.manualLogin(req.param('user'), req.param('pass'), function(error, output){
-			console.log(error);
-			console.log(output);
+			console.log("err:   "+error);
+			console.log("out:   "+output);
             if(!output){
                 res.send(error, 400);
             }else{
@@ -66,11 +73,11 @@ module.exports = function(app) {
 
     // logged-in user homepage
 
-    app.get('/home', function(req, res){
-		console.log("get /home");
+    app.get('/', function(req, res){
+		console.log("get /");
         if(!req.session.user){
             // if user is not logged in, redirect them to login page
-            res.redirect('/');
+            res.redirect('/login');
         }else{
             res.render('home', {
                 title : 'Campaignr'
@@ -78,15 +85,42 @@ module.exports = function(app) {
         }
     });
 
-    app.post('/home', function(req, res){
-		console.log("post /home");
+    app.post('/logout', function(req, res){
+		console.log("post /logout");
         if(req.param('logout') == 'true'){
             res.clearCookie('user');
             res.clearCookie('pass');
             req.session.destroy(function(error){ res.send('ok', 200) });
         }
     });
-
+    app.post('/', function(req, res){
+        console.log("post /");
+        var campaign = {};
+        var data = req.body;
+        campaign.name = data.campaignName;
+        campaign.owner = req.session.user.user;
+        campaign.planets = [];
+        for(var i=0; i<data.planetName.length; i++){
+            var planetData = {};
+            planetData.name = data.planetName[i];
+            planetData.territories = [];
+            for(var j=0; j<data.territories[i]; j++){
+                var territoryData = {};
+                territoryData.id = planetData.name + "_ter_" + j;
+                planetData.territories.push(territoryData);
+            }
+            campaign.planets.push(planetData);
+        }
+        var campaignObject = {campaign: campaign};
+        console.log(campaignObject);
+        
+        AM.addCampaign(campaignObject, function(data){
+            console.log(data);
+        });
+        res.render('home', {
+            title : 'Campaignr'
+        });
+    });
     // creating new accounts
 
     app.get('/signup', function(req, res){
