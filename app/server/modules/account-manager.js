@@ -29,7 +29,11 @@ exports.getCampaignsIPlayInButDontOwn = function(user, callback){
         output!== null ? callback(output) : callback(null);
     });
 };
-
+exports.getCampaigns = function(user, callback){
+    campaigns.find({"campaign.players.name" : user}, function(err, out){
+        err ? callback(null) : callback(out);
+    })
+};
 exports.addCampaign = function(campaignData, callback){
     campaigns.insert(campaignData, {safe: true}, callback)
 };
