@@ -7,17 +7,36 @@ module.exports = function(app) {
 
     //get campaign//
     app.get('/db', function(req, res){
-        AM.getCampaigns(req.session.user.user, function(output){
-            res.send(output);
+        console.log("get /db");
+        AM.getCampaigns(req.session.user.user, function(out){
+            console.log("/db:      "+out);
+            res.send(out);
+        });
+/*
+        var campaignList = [];
+        AM.getCampaignsOwnedByMe(req.session.user.user, function(output){
+            console.log("campaigns owned by me: " + output);
+            for(var i=0; i<output.length; i++){
+                campaignList.push(output[i]);
+            }
+            AM.getCampaignsIPlayInButDontOwn(req.session.user.user, function(output){
+                console.log("campaigns I play in but don't own: " + output);
+                for(var j=0; i<output.length; j++){
+                    campaignList.push(output[j]);
+                }
+                console.log(campaignList);
+                res.send(campaignList);
+            })
         })
+*/
     })
     
     
     
     // main login page //
 
-    app.get('/', function(req, res){
-		console.log("get /");
+    app.get('/login', function(req, res){
+		console.log("get /login");
         // check if users credentials are stored in a cookie
         if(req.cookies.user == undefined || req.cookies.pass == undefined){
             res.render('login', {title: 'Hello – Please Login To Your Account'});
@@ -26,7 +45,7 @@ module.exports = function(app) {
             AM.autoLogin(req.cookies.user, req.cookies.pass, function(output){
                 if(output != null){
                     req.session.user = output;
-                    res.redirect('/home');
+                    res.redirect('/');
                 }else{
                     res.render('login', {title: 'Hello – Please Login To Your Account'});
                 }
@@ -34,11 +53,11 @@ module.exports = function(app) {
         }
     });
 
-    app.post('/', function(req, res){
-		console.log("post /");
+    app.post('/login', function(req, res){
+		console.log("post /login");
         AM.manualLogin(req.param('user'), req.param('pass'), function(error, output){
-			console.log(error);
-			console.log(output);
+			console.log("err:   "+error);
+			console.log("out:   "+output);
             if(!output){
                 res.send(error, 400);
             }else{
@@ -54,51 +73,54 @@ module.exports = function(app) {
 
     // logged-in user homepage
 
-    app.get('/home', function(req, res){
-		console.log("get /home");
+    app.get('/', function(req, res){
+		console.log("get /");
         if(!req.session.user){
             // if user is not logged in, redirect them to login page
-            res.redirect('/');
+            res.redirect('/login');
         }else{
-            AM.getCampaigns(req.session.user.user, function(output){
-                res.render('home', {
-                    title : 'Your campaigns',
-                    campaigns: output
-                });
+            res.render('home', {
+                title : 'Campaignr'
             });
-
         }
     });
 
-    app.post('/home', function(req, res){
-		console.log("post /home");
-        if(req.param('user') != undefined){
-            AM.updateAccount({
-                user:       req.param('user'),
-                name:       req.param('name'),
-                email:      req.param('email'),
-                country:    req.param('country'),
-                pass:       req.param('pass'),
-            }, function(error, output){
-                if(error){
-                    res.send('error-updating-account', 400);
-                }else{
-                    req.session.user = output;
-                    // update the user's login cookies if they exist
-                    if(req.cookies.user != undefined && req.cookies.pass != undefined){
-                        res.cookie('user', output.user, { maxAge: 900000 });
-                        res.cookie('pass', output.pass, { maxAge: 900000 });
-                    }
-                    res.send('ok', 200);
-                }
-            });
-        }else if(req.param('logout') == 'true'){
+    app.post('/logout', function(req, res){
+		console.log("post /logout");
+        if(req.param('logout') == 'true'){
             res.clearCookie('user');
             res.clearCookie('pass');
             req.session.destroy(function(error){ res.send('ok', 200) });
         }
     });
-
+    app.post('/', function(req, res){
+        console.log("post /");
+        var campaign = {};
+        var data = req.body;
+        campaign.name = data.campaignName;
+        campaign.owner = req.session.user.user;
+        campaign.planets = [];
+        for(var i=0; i<data.planetName.length; i++){
+            var planetData = {};
+            planetData.name = data.planetName[i];
+            planetData.territories = [];
+            for(var j=0; j<data.territories[i]; j++){
+                var territoryData = {};
+                territoryData.id = planetData.name + "_ter_" + j;
+                planetData.territories.push(territoryData);
+            }
+            campaign.planets.push(planetData);
+        }
+        var campaignObject = {campaign: campaign};
+        console.log(campaignObject);
+        
+        AM.addCampaign(campaignObject, function(data){
+            console.log(data);
+        });
+        res.render('home', {
+            title : 'Campaignr'
+        });
+    });
     // creating new accounts
 
     app.get('/signup', function(req, res){
@@ -178,9 +200,40 @@ module.exports = function(app) {
         });
     });
 
+<<<<<<< HEAD
    app.post('/myUserName', function(req, res){
        res.send(req.session.user.user, 200);
    });
+=======
+    app.post('/newCampaign', function(req, res){
+        console.log("post /newCampaign");
+        var campaign = {};
+        var data = req.body;
+        campaign.name = data.campaignName;
+        campaign.owner = req.session.user.user;
+        campaign.planets = [];
+        for(var i=0; i<data.planetName.length; i++){
+            var planetData = {};
+            planetData.name = data.planetName[i];
+            planetData.territories = [];
+            for(var j=0; j<data.territories[i]; j++){
+                var territoryData = {};
+                territoryData.id = planetData.name + "_ter_" + j;
+                planetData.territories.push(territoryData);
+            }
+            campaign.planets.push(planetData);
+        }
+        var campaignObject = {campaign: campaign};
+        console.log(campaignObject);
+        
+        AM.addCampaign(campaignObject, function(data){
+            console.log(data);
+        });
+        res.render('home', {
+            title : 'Campaignr'
+        });
+    });
+>>>>>>> CampaignBuild
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
 };
