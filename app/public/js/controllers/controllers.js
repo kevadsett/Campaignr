@@ -10,8 +10,6 @@ var App = Backbone.View.extend({
     render: function() {
         var html = Handlebars.templates["main"];
         this.$el.html(html);
-        //var campaignBuilderTemplate = Handlebars.templates["newCampaign"];
-        //$('#campaignBuilder').append(campaignBuilderTemplate);
     }
 })
 

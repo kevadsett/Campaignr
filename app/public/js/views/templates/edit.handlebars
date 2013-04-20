@@ -1,8 +1,7 @@
 <div id="slide-holder">
-    {{#each planet}}
-        <div class="planet-slide">
-            <canvas style="width:300px; height:300px;">
-            </canvas>
+    {{#each campaign.planets}}
+        <div id="{{uid}}" class="planet-slide">
+            <canvas id="canvas-{{uid}}"class="planet-canvas" width="300" height="300"></canvas>
         </div>
     {{/each}}
 </div>

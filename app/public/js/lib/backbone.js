@@ -256,6 +256,7 @@
     this.set(attrs, options);
     this.changed = {};
     this.initialize.apply(this, arguments);
+    this.attributes.uid = _.uniqueId('u');
   };
 
   // A list of options to be attached directly to the model, if provided.
@@ -603,6 +604,7 @@
     this.initialize.apply(this, arguments);
     if (models) this.reset(models, _.extend({silent: true}, options));
     this.attributes = {};
+    this.attributes.uid = _.uniqueId('u');
   };
 
   // Default options for `Collection#set`.

@@ -1,4 +1,7 @@
 Campaignr.Controllers.home = Content.extend({
+    events: {
+        'click .campaignItem a':'setCampaign'
+    },
     init:function(){
         this.data = {campaigns: Campaignr.Campaigns.toJSON()};
     },
@@ -7,5 +10,8 @@ Campaignr.Controllers.home = Content.extend({
         /*
         */
         console.log('homeController');
+    },
+    setCampaign: function () {
+        console.log('setCampaign');
     }
 });

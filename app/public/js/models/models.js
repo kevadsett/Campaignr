@@ -3,37 +3,34 @@ var Campaign = Backbone.Model.extend({
         //console.log("new campaign");
     },
     parse: function(resp){
-        var d = resp.campaign;
-        var Planets = _.reduce(d.planets, function(planets, planet){
+        var Planets = _.reduce(resp.campaign.planets, function(memo, planet){
             var p = new Planet(planet.territories);
             p.collectionAttr("name", planet.name);
             p.collectionAttr("notes", planet.notes);
-            planets.push(p);
-            return planets;
+            memo.push(p);
+            return memo;
         }, []);
         resp = {
             _id:resp._id,
-            name: d.name,
-            owner: d.owner,
-            players: new Players(d.players),
-            battles: new Battles(d.battles),
-            factions: new Factions(d.factions),
+            name: resp.campaign.name,
+            owner: resp.campaign.owner,
+            players: new Players(resp.campaign.players),
+            battles: new Battles(resp.campaign.battles),
+            factions: new Factions(resp.campaign.factions),
             planets:Planets
         }
-        console.log(resp);
         return resp;
     },
     toJSON:function(){
-        var Planets = _.reduce(this.planets, function(planets, planet){
-            alert('planets');
+        var Planets = _.reduce(this.get('planets'), function(memo, planet){
             var p = {
+                uid: planet.collectionAttr("uid"),
                 name: planet.collectionAttr("name"),
                 notes: planet.collectionAttr("notes"),
-                territories: planet.models.toJSON()
+                territories: planet.toJSON()
             }
-            planets.push(p);
-            console.log(planets);
-            return planets;
+            memo.push(p);
+            return memo;
         }, [])
         var resp = {
             _id: this.get('_id'),
