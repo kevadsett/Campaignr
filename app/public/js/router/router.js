@@ -1,7 +1,6 @@
 var Campaignr = {
     Controllers: {}
 };
-
 var Router = Backbone.Router.extend({
     routes: {
         ":route":"routeCheck"
@@ -15,13 +14,13 @@ var Router = Backbone.Router.extend({
     routeCheck: function (route) {
         if(route === "")
             this.navigate('#/home', {trigger: true});
-        if(!Campaignr.Controllers[route])
-            return;
-        this.routeTo(route);
+        if(Campaignr.Controllers[route])
+            this.routeTo(route);
     },
     routeTo: function (route) {
         if(Campaignr.View)
             Campaignr.View.stopListening();
+        Campaignr.Location = route;
         Campaignr.View = new Campaignr.Controllers[route];
     }
 });
