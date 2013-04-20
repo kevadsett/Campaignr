@@ -12,6 +12,23 @@ helpers = helpers || Handlebars.helpers; partials = partials || Handlebars.parti
   buffer += "\n        </div>\n        <div id=\"newPlanetButton\">\n            <a href=\"#\">+</a>\n        </div>\n    </div>\n    <input type=\"submit\" value=\"Done\" id=\"createCampaignBtn\" class=\"hidden\" />\n</form>\n<div id=\"url\" class=\"hidden\">\n</div>\n<div id=\"planetCreation\">\n</div>";
   return buffer;
   });
+templates['edit'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
+helpers = helpers || Handlebars.helpers; data = data || {};
+  var buffer = "", stack1, self=this;
+
+function program1(depth0,data) {
+  
+  
+  return "\n        <div class=\"planet-slide\">\n            <canvas style=\"width:300px; height:300px;\">\n            </canvas>\n        </div>\n    ";
+  }
+
+  buffer += "<div id=\"slide-holder\">\n    ";
+  stack1 = helpers.each.call(depth0, depth0.planet, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</div>";
+  return buffer;
+  });
 templates['home'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [2,'>= 1.0.0-rc.3'];
 helpers = helpers || Handlebars.helpers; data = data || {};
