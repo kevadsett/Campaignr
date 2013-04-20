@@ -6,11 +6,19 @@ helpers = helpers || Handlebars.helpers; partials = partials || Handlebars.parti
   var buffer = "", stack1, self=this;
 
 
-  buffer += "<div id=\"campaignHeader\"></div>\n<form id=\"newCampaignForm\" action=\"newCampaign\" method=\"post\">\n    <input name=\"campaignName\" placeholder=\"New Campaign Name\" id=\"campaignNameTxt\"/>\n    <div class=\"planetCreator hidden\">\n        <div id=\"planetList\">\n            ";
+  buffer += "<div id=\"campaignHeader\"></div>\r\n<form id=\"newCampaignForm\" action=\"newCampaign\" method=\"post\">\r\n    <input name=\"campaignName\" placeholder=\"New Campaign Name\" id=\"campaignNameTxt\"/>\r\n    <div class=\"planetCreator hidden\">\r\n        <div id=\"planetList\">\r\n            ";
   stack1 = self.invokePartial(partials.newPlanetPartial, 'newPlanetPartial', depth0, helpers, partials, data);
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n        </div>\n        <div id=\"newPlanetButton\">\n            <a href=\"#\">+</a>\n        </div>\n    </div>\n    <input type=\"submit\" value=\"Done\" id=\"createCampaignBtn\" class=\"hidden\" />\n</form>\n<div id=\"url\" class=\"hidden\">\n</div>\n<div id=\"planetCreation\">\n</div>";
+  buffer += "\r\n        </div>\r\n        <div id=\"newPlanetButton\">\r\n            <a href=\"#\">+</a>\r\n        </div>\r\n    </div>\r\n    <input type=\"submit\" value=\"Done\" id=\"createCampaignBtn\" class=\"hidden\" />\r\n</form>\r\n<div id=\"url\" class=\"hidden\">\r\n</div>\r\n<div id=\"planetCreation\">\r\n</div>";
   return buffer;
+  });
+templates['edit'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
+helpers = helpers || Handlebars.helpers; data = data || {};
+  
+
+
+  return "<canvas>";
   });
 templates['home'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [2,'>= 1.0.0-rc.3'];
@@ -31,7 +39,7 @@ function program1(depth0,data) {
   buffer += "<div id=\"campaignListHolder\">\r\n    ";
   stack1 = helpers.each.call(depth0, depth0.campaigns, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n    <div class=\"newCampaignButton\">\r\n    </div>\r\n</div>";
+  buffer += "\r\n    <div class=\"newCampaignButton\">\r\n        <a href=\"#/create\">Create new campaign</a>\r\n    </div>\r\n</div>";
   return buffer;
   });
 templates['main'] = template(function (Handlebars,depth0,helpers,partials,data) {
@@ -40,6 +48,6 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   
 
 
-  return "<div id=\"wrapper\">\n    <div id=\"header\">\n    </div>\n    <div id=\"content\">\n    </div>\n    <div id=\"nav\">\n        <div class=\"navItem\">\n            <a href=\"#\">item1</a>\n        </div>\n        <div class=\"navItem\">\n            <a href=\"#\">item2</a>\n        </div>\n        <div class=\"navItem\">\n            <a href=\"#\">item3</a>\n        </div>\n        <div class=\"navItem\">\n            <a href=\"#\">item4</a>\n        </div>\n    </div>\n</div>";
+  return "<div id=\"wrapper\">\r\n    <div id=\"header\">\r\n    </div>\r\n    <div id=\"content\">\r\n    </div>\r\n    <div id=\"nav\" class=\"hidden\">\r\n        <div class=\"navItem\">\r\n            <a href=\"#\">item1</a>\r\n        </div>\r\n        <div class=\"navItem\">\r\n            <a href=\"#\">item2</a>\r\n        </div>\r\n        <div class=\"navItem\">\r\n            <a href=\"#\">item3</a>\r\n        </div>\r\n        <div class=\"navItem\">\r\n            <a href=\"#\">item4</a>\r\n        </div>\r\n    </div>\r\n</div>";
   });
 })();
