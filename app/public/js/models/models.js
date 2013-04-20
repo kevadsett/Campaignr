@@ -1,13 +1,6 @@
 var Campaign = Backbone.Model.extend({
-    defaults: {
-        name: "",
-        owner: "",
-        players: new Players(),
-        battles: new Battles(),
-        factions: new Factions(),
-        planets: []
-    },
     initialize: function() {
+        console.log(this.defaults);
         //console.log("new campaign");
     },
     parse: function(resp){
@@ -28,7 +21,7 @@ var Campaign = Backbone.Model.extend({
             factions: new Factions(d.factions),
             planets:Planets
         }
-        //console.log(resp);
+        console.log(resp);
         return resp;
     },
     toJSON:function(){
