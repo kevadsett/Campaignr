@@ -1,6 +1,7 @@
 var Router = Backbone.Router.extend({
     routes: {
-        "home":"home"
+        "home":"home",
+        "create":"create"
     },
     initialize: function() {
         Campaignr.App.render();
@@ -15,5 +16,11 @@ var Router = Backbone.Router.extend({
         if(Campaignr.View)
             Campaignr.View.remove();
         Campaignr.View = new HomeController();
+    },
+    create: function() {
+        console.log('reached home');
+        if(Campaignr.View)
+            Campaignr.View.remove();
+        Campaignr.View = new CreateController();
     }
 });
