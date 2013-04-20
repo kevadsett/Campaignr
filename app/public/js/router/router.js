@@ -1,36 +1,24 @@
+var Campaignr = {
+    Controllers: {}
+};
+
 var Router = Backbone.Router.extend({
     routes: {
-        "home":"home",
-        "create":"create",
-        "edit":"edit"
+        ":route":"routeCheck"
     },
-    initialize: function() {
+    initialize: function () {
         Backbone.history.start();
         this.on('route', this.change);
         this.navigate('/home', {trigger: true});
     },
-    change: function(route) {
-        console.log('change');
-        Campaignr.Location = route;
+    routeCheck: function (route) {
+        if(!Campaignr.Controllers[route])
+            return;
+        this.routeTo(route);
     },
-    home: function () {
-        console.log('reached home');
+    routeTo: function (route) {
         if(Campaignr.View)
-            Campaignr.View.remove();
-        Campaignr.View = new HomeController();
-    },
-    create: function() {
-        console.log('reached create');
-        Campaignr.Location = "create";
-        if(Campaignr.View)
-            Campaignr.View.remove();
-        Campaignr.View = new CreateController();
-    },
-    edit: function() {
-        console.log('reached edit');
-        Campaignr.Location = "edit";
-        if(Campaignr.View)
-            Campaignr.View.remove();
-        Campaignr.View = new EditController();
+            Campaignr.View.stopListening();
+        Campaignr.View = new Campaignr.Controllers[route];
     }
 });
