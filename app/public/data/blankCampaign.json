@@ -8,14 +8,7 @@
             "points": 0,
             "notes": null
         }],
-        "planets": [{
-            "name": null,
-            "territories": [{
-                "id": null,
-                "type": null,
-                "owner": null,
-                "notes": null
-            }],
+        "planets": [],
             "notes": null
         }],
         "battles": [{
