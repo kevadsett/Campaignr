@@ -10,7 +10,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   if (stack1 = helpers.planetNumber) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.planetNumber; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\">\r\n    <input name=\"planetName\" placeholder=\"Planet name\" class=\"planetNameTxt\"></input>\r\n    <label name=\"territoryCount\" class=\"territoryCount\">Number of territories:</label>\r\n    <input type=\"number\" name=\"territories\"></input>\r\n</div>";
+    + "\">\r\n    <input name=\"planetName\" placeholder=\"Planet name\" class=\"planetNameTxt\"></input>\r\n    <label name=\"territoryCount\">Number of territories:</label>\r\n    <input type=\"number\" name=\"territories\" class=\"territoryCountNumber\"></input>\r\n</div>";
   return buffer;
   });
 })();
