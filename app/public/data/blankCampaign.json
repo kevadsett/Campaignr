@@ -1,0 +1,8 @@
+campaign: {
+    name: "",
+    owner: "",
+    players: [],
+    planets: [],
+    battles: [],
+    factions: []
+  }
