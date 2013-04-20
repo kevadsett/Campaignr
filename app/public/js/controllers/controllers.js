@@ -72,3 +72,9 @@ var CreateController = Content.extend({
         console.log('create');
     },
 });
+
+var EditController = Content.extend({
+    init: function() {
+        console.log('edit');
+    },
+});
