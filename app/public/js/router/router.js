@@ -4,9 +4,9 @@ var Router = Backbone.Router.extend({
         "create":"create"
     },
     initialize: function() {
-        Campaignr.App.render();
-        this.navigate('/home', {trigger: true});
+        console.log('hi');
         this.on('route', this.change);
+        this.navigate('/home', {trigger: true});
     },
     change: function(route) {
         console.log('change');
@@ -24,5 +24,12 @@ var Router = Backbone.Router.extend({
         if(Campaignr.View)
             Campaignr.View.remove();
         Campaignr.View = new CreateController();
+    },
+    edit: function() {
+        console.log('reached edit');
+        Campaignr.Location = "edit";
+        if(Campaignr.View)
+            Campaignr.View.remove();
+        Campaignr.View = new EditController();
     }
 });

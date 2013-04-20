@@ -1,5 +1,6 @@
 var Campaignr = {
     Campaigns: new CampaignCollection(),
+    CurrentCampaign: null,
     App: null,
     Router: null,
     View: null,
