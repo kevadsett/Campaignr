@@ -1,15 +1,15 @@
 <div id="campaignHeader"></div>
 <form id="newCampaignForm" action="newCampaign" method="post">
     <input name="campaignName" placeholder="New Campaign Name" id="campaignNameTxt"/>
-    <div class="planetCreator hidden">
+    <div id="planetCreationViews" class="hidden">
         <div id="planetList">
             {{> newPlanetPartial}}
         </div>
-        <div id="newPlanetButton">
+        <div id="newPlanetCreatorButton">
             <a href="#">+</a>
         </div>
     </div>
-    <input type="submit" value="Done" id="createCampaignBtn" class="hidden" />
+    <input type="button" value="Done" id="createCampaignBtn" class="hidden"/>
 </form>
 <div id="url" class="hidden">
 </div>
