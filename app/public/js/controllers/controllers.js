@@ -38,7 +38,7 @@ var Content = Backbone.View.extend({
     }
 });
 
-var HomeController = Content.extend({
+Campaignr.Controllers.home = Content.extend({
     init:function(){
         this.data = {campaigns: Campaignr.Campaigns.toJSON()};
     },
@@ -50,7 +50,7 @@ var HomeController = Content.extend({
     }
 });
 
-var CreateController = Content.extend({
+Campaignr.Controllers.create = Content.extend({
     init: function() {
         console.log('create');
         var numberPlanetsCreated=0;
@@ -71,8 +71,7 @@ var CreateController = Content.extend({
         });
     },
 });
-
-var EditController = Content.extend({
+Campaignr.Controllers.edit = Content.extend({
     init: function() {
         console.log('edit');
     },
