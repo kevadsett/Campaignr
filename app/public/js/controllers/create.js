@@ -3,19 +3,15 @@ Campaignr.Controllers.create = Content.extend({
         this.data = {planetNumber:0};
         console.log('create');
         this.numberPlanetsCreated=0;
-        this.newCampaign = {};
     },
     setup: function(){
         console.log('setup create');
-        var self = this;
-        $.getJSON('../data/blankCampaign.json', function(data){
-            self.newCampaign = data.campaign;
-        });
     },
     events:{
         "keyup #campaignNameTxt":"determineCreationToolsVisibility",
         "click #newPlanetCreatorButton a": "addNewPlanetCreationView",
-        "click .removePlanetCreatorButton a": "removePlanetCreationView"
+        "click .removePlanetCreatorButton a": "removePlanetCreationView",
+        "click #createCampaignButton":"generateAndSubmitCampaign"
     },
     determineCreationToolsVisibility: function(){
         if(this.value !== ""){
@@ -37,5 +33,13 @@ Campaignr.Controllers.create = Content.extend({
         e.preventDefault();
         console.log($(e.target).parents('.planetCreationView'));
         $(e.target).parents('.planetCreationView').remove();
+    },
+    generateAndSubmitCampaign: function(){
+        var self = this;
+        $.getJSON('../data/blankCampaign.json', function(data){
+            self.newCampaign = data.campaign;
+        });
+        this.newCampaign.owner = "__me";
+        this.newCampaign.players[0].name = "__me";
     }
 });
