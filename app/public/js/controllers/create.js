@@ -3,25 +3,39 @@ Campaignr.Controllers.create = Content.extend({
         this.data = {planetNumber:0};
         console.log('create');
         this.numberPlanetsCreated=0;
+        this.newCampaign = {};
+    },
+    setup: function(){
+        console.log('setup create');
+        var self = this;
+        $.getJSON('../data/blankCampaign.json', function(data){
+            self.newCampaign = data.campaign;
+        });
     },
     events:{
         "keyup #campaignNameTxt":"determineCreationToolsVisibility",
-        "click #newPlanetButton a": "addNewPlanetCreationTool"
+        "click #newPlanetCreatorButton a": "addNewPlanetCreationView",
+        "click .removePlanetCreatorButton a": "removePlanetCreationView"
     },
     determineCreationToolsVisibility: function(){
         if(this.value !== ""){
-            $('.planetCreator').removeClass('hidden');
+            $('#planetCreationViews').removeClass('hidden');
             $('#createCampaignBtn').removeClass('hidden');
         }else{
-            $('.planetCreator').addClass('hidden');
+            $('#planetCreationViews').addClass('hidden');
             $('#createCampaignBtn').addClass('hidden');
         }
     },
-    addNewPlanetCreationTool: function(e){
+    addNewPlanetCreationView: function(e){
         e.preventDefault();
         this.numberPlanetsCreated++;
         var template = Handlebars.partials["newPlanetPartial"];
         var html = template({planetNumber:this.numberPlanetsCreated});
         $('#planetList').append(html);
+    },
+    removePlanetCreationView: function(e){
+        e.preventDefault();
+        console.log($(e.target).parents('.planetCreationView'));
+        $(e.target).parents('.planetCreationView').remove();
     }
 });
