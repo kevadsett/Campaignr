@@ -70,6 +70,10 @@ Campaignr.Controllers.create = Content.extend({
             $('#planetList').append('<div class="newPlanet" id="newPlanet' + numberPlanetsCreated + '"><input name="planetName" placeholder="Planet name" class="planetNameTxt"></input><label name="territoryCount">Number of territories:</label><input type="number" name="territories"></input></div>');
         });
     },
+    events:{
+        "keyup #campaignNameTxt":"determineCreationToolsVisibility",
+        "click #newPlanetButton a": "addNewPlanetCreationTool"
+    }
 });
 Campaignr.Controllers.edit = Content.extend({
     init: function() {
