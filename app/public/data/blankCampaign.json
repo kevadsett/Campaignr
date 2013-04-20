@@ -1,8 +1,35 @@
-campaign: {
-    name: "",
-    owner: "",
-    players: [],
-    planets: [],
-    battles: [],
-    factions: []
-  }
+{
+    "campaign": {
+        "name": null,
+        "owner": null,
+        "players": [{
+            "name": null,
+            "faction": null,
+            "points": 0,
+            "notes": null
+        }],
+        "planets": [{
+            "name": null,
+            "territories": [{
+                "id": null,
+                "type": null,
+                "owner": null,
+                "notes": null
+            }],
+            "notes": null
+        }],
+        "battles": [{
+            "id": null,
+            "players": [null],
+            "planet": null,
+            "winningPlayers": [null],
+            "winningFaction": null,
+            "notes": null
+        }],
+        "factions": [{
+            "name": null,
+            "points": 0,
+            "notes": null
+        }]
+    }
+}

@@ -1,6 +1,6 @@
 {
-    name: "",
-    faction: "",
-    points: 0,
-    notes: ""
+    "name": null,
+    "faction": null,
+    "points": 0,
+    "notes": null
 }

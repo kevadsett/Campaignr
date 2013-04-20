@@ -1,6 +1,6 @@
 {
-    id: "",
-    type: "",
-    owner: "",
-    notes: ""
+    "id": null,
+    "type": null,
+    "owner": null,
+    "notes": null
 }

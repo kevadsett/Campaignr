@@ -1,5 +1,10 @@
 {
-    name: "",
-    territories: [],
-    notes: ""
+    "name": null,
+    "territories": [{
+        "id": null,
+        "type": null,
+        "owner": null,
+        "notes": null
+    }],
+    "notes": null
 }
