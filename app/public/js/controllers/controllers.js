@@ -4,9 +4,8 @@ var App = Backbone.View.extend({
         var self = this;
         Campaignr.Campaigns.fetch({success: function(){
             Campaignr.Router = new Router();
-            Backbone.history.start();
-            //Campaignr.Router.navigate('/home', {trigger: true})
-        }});  
+        }});
+        this.render();
     },
     render: function() {
         var html = Handlebars.templates["main"];

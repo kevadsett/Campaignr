@@ -1,10 +1,11 @@
 var Router = Backbone.Router.extend({
     routes: {
         "home":"home",
-        "create":"create"
+        "create":"create",
+        "edit":"edit"
     },
     initialize: function() {
-        console.log('hi');
+        Backbone.history.start();
         this.on('route', this.change);
         this.navigate('/home', {trigger: true});
     },

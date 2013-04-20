@@ -8,6 +8,4 @@ var Campaignr = {
 };
 $(function() {
     Campaignr.App = new App();
-    //Campaignr.Router = new Router();
-    //Backbone.history.start();
 });
