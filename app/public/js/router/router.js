@@ -9,7 +9,7 @@ var Router = Backbone.Router.extend({
     initialize: function () {
         Backbone.history.start();
         this.on('route', this.change);
-        this.navigate('/home', {trigger: true});
+        this.navigate('#/home', {trigger: true});
     },
     routeCheck: function (route) {
         if(!Campaignr.Controllers[route])
