@@ -200,11 +200,6 @@ module.exports = function(app) {
         });
     });
 
-<<<<<<< HEAD
-   app.post('/myUserName', function(req, res){
-       res.send(req.session.user.user, 200);
-   });
-=======
     app.post('/newCampaign', function(req, res){
         console.log("post /newCampaign");
         var campaign = {};
@@ -233,7 +228,6 @@ module.exports = function(app) {
             title : 'Campaignr'
         });
     });
->>>>>>> CampaignBuild
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
 };
