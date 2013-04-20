@@ -9,6 +9,7 @@ var Router = Backbone.Router.extend({
         this.on('route', this.change);
     },
     change: function(route) {
+        console.log('change');
         Campaignr.Location = route;
     },
     home: function () {
@@ -18,7 +19,8 @@ var Router = Backbone.Router.extend({
         Campaignr.View = new HomeController();
     },
     create: function() {
-        console.log('reached home');
+        console.log('reached create');
+        Campaignr.Location = "create";
         if(Campaignr.View)
             Campaignr.View.remove();
         Campaignr.View = new CreateController();
