@@ -19,6 +19,7 @@ var App = Backbone.View.extend({
 var Content = Backbone.View.extend({
     el: "#content",
     initialize: function() {
+        this.init();
         console.log('content view init');
         this.render();
     },
@@ -32,6 +33,9 @@ var Content = Backbone.View.extend({
     },
     setup: function () {
         console.log('setup');
+    },
+    init: function () {
+    
     }
 });
 
@@ -57,4 +61,10 @@ var HomeController = Content.extend({
         });
         console.log('homeController');
     }
+});
+
+var CreateController = Content.extend({
+    init: function() {
+        console.log('create');
+    },
 });
