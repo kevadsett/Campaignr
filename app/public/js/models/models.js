@@ -1,28 +1,6 @@
-<<<<<<< HEAD
-var App = Backbone.View.extend({
-    initialize: function(){
-       
-        console.log('app');
-        Campaigns.fetch({success:function(){
-            Campaigns.trigger('loaded');
-        }});
-    },
-    onCampaignLoaded:function(){
-        console.log("stuff is happening");
-    }
-})
-
-var Campaign = Backbone.Model.extend({
-    initialize: function() {
-        console.log("new campaign");
-        //console.log(this.toJSON());
-=======
-
-
 var Campaign = Backbone.Model.extend({
     initialize: function() {
         //console.log("new campaign");
->>>>>>> CampaignBuild
     },
     parse: function(resp){
         var d = resp.campaign;
@@ -78,21 +56,11 @@ var Player = Backbone.Model.extend({
         notes: []
     },
     initialize: function(){
-<<<<<<< HEAD
-        //console.log("New Player model created");
-=======
-
->>>>>>> CampaignBuild
     }
 });
 
 var Battle = Backbone.Model.extend({
     initialize: function() {
-<<<<<<< HEAD
-        //console.log("new battle");
-=======
-
->>>>>>> CampaignBuild
     }
 
 });
@@ -103,21 +71,11 @@ var Faction = Backbone.Model.extend({
         points: 0
     },
     initialize: function(){
-<<<<<<< HEAD
-        //console.log('new faction');
-=======
-       
->>>>>>> CampaignBuild
     }
 });
 
 var Territory = Backbone.Model.extend({
     initialize: function() {
-<<<<<<< HEAD
-        //console.log("New Territory Model Created");
-=======
-
->>>>>>> CampaignBuild
     },
     defaults: {
         type: "Default Type",
