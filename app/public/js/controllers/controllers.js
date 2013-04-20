@@ -18,15 +18,15 @@ var App = Backbone.View.extend({
 var Content = Backbone.View.extend({
     el: "#content",
     initialize: function() {
+        this.data = {};
         this.init();
         console.log('content view init');
         this.render();
     },
     render: function() {
         var template = Handlebars.templates[Campaignr.Location];
-        var data = {campaigns: Campaignr.Campaigns.toJSON()};
-        console.log(data);
-        var html = template(data);
+        console.log(this.data);
+        var html = template(this.data);
         this.$el.html(html);
         this.setup()
     },
@@ -39,7 +39,12 @@ var Content = Backbone.View.extend({
 });
 
 var HomeController = Content.extend({
+    init:function(){
+        this.data = {campaigns: Campaignr.Campaigns.toJSON()};
+    },
     setup: function () {
+        console.log('setup');
+        /*
         app.on('appRendered', function() {
             var numberPlanetsCreated=0;
             $('#campaignNameTxt').keyup(function(){
@@ -57,7 +62,7 @@ var HomeController = Content.extend({
                 numberPlanetsCreated++;
                 $('#planetList').append('<div class="newPlanet" id="newPlanet' + numberPlanetsCreated + '"><input name="planetName" placeholder="Planet name" class="planetNameTxt"></input><label name="territoryCount">Number of territories:</label><input type="number" name="territories"></input></div>');
             });
-        });
+        });*/
         console.log('homeController');
     }
 });

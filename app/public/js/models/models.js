@@ -1,6 +1,5 @@
 var Campaign = Backbone.Model.extend({
     initialize: function() {
-        console.log(this.defaults);
         //console.log("new campaign");
     },
     parse: function(resp){
