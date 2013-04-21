@@ -9,6 +9,7 @@ Campaignr.Controllers.create = Content.extend({
     },
     events:{
         "keyup #campaignNameTxt":"determineCreationToolsVisibility",
+        "blur #campaignNameTxt":"determineCreationToolsVisibility",
         "click #newPlanetCreatorButton a": "addNewPlanetCreationView",
         "click .removePlanetCreatorButton a": "removePlanetCreationView",
         "click #createCampaignButton":"generateAndSubmitCampaign"
@@ -16,10 +17,10 @@ Campaignr.Controllers.create = Content.extend({
     determineCreationToolsVisibility: function(){
         if(this.value !== ""){
             $('#planetCreationViews').removeClass('hidden');
-            $('#createCampaignBtn').removeClass('hidden');
+            $('#createCampaignButton').removeClass('hidden');
         }else{
             $('#planetCreationViews').addClass('hidden');
-            $('#createCampaignBtn').addClass('hidden');
+            $('#createCampaignButton').addClass('hidden');
         }
     },
     addNewPlanetCreationView: function(e){
@@ -38,8 +39,17 @@ Campaignr.Controllers.create = Content.extend({
         var self = this;
         $.getJSON('../data/blankCampaign.json', function(data){
             self.newCampaign = data.campaign;
+            self.newCampaign.owner = "__me";
+            self.newCampaign.players[0].name = "__me";
+            $('.planetCreationView').each(function(){
+                var view = this;
+                $.getJSON('../data/blankPlanet.json', function(data){
+                    data.name = $('.planetNameTxt', view).val();
+                    self.newCampaign.planets.push(data);
+                    console.log(self.newCampaign);
+                });
+            });
         });
-        this.newCampaign.owner = "__me";
-        this.newCampaign.players[0].name = "__me";
+        
     }
 });
