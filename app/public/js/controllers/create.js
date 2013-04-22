@@ -41,24 +41,40 @@ Campaignr.Controllers.create = Content.extend({
             self.newCampaign = data.campaign;
             self.newCampaign.owner = "__me";
             self.newCampaign.players[0].name = "__me";
-            self.getNewPlanetData($('.planetCreationView').length, function(planetData){
-                console.log("Got the planets");
-                console.log(planetData.length);
-                for(var i = 0; i < planetData.length; i++){
-                    var currentPlanet = planetData[i];
-                    console.log(currentPlanet);
-                    var context = $('.planetCreationView').eq(i);
-                    var view = $('.territoryCountNumber', context);
-                    console.log(view.val());
-                    self.getNewTerritoryData(view.val(), function(territoryData){
-                        currentPlanet.territories = territoryData;
+            var numberOfPlanets = $('.planetCreationView').length;
+            var populatedPlanets = 0;
+            self.newCampaign.planets = new Array(numberOfPlanets);
+            self.getNewPlanetData(numberOfPlanets, function(planetData){
+                _.each(planetData, function(planetDatum, index){
+                    planetDatum.id = index;
+                    self.populatePlanetData(planetDatum, function(populatedPlanetData){
+                        populatedPlanets++;
+                        self.newCampaign.planets[populatedPlanetData.id] = populatedPlanetData;
+                        if(populatedPlanets == numberOfPlanets){
+                            self.allPlanetsDone();
+                        }
                     });
-                }
+                });
             });
         });
     },
+    populatePlanetData: function(planetDatum, callback) {
+        var context = $('.planetCreationView').eq(planetDatum.id);
+        planetDatum.name = $('.planetNameTxt', context).val();
+        var view = $('.territoryCountNumber', context);
+        var numberOfTerritories = view.val();
+        this.getNewTerritoryData(numberOfTerritories, function(territoryData){
+            for(var i=0; i<territoryData.length; i++){
+                territoryData[i].id = planetDatum.id + "_ter_" + i;
+            }
+            planetDatum.territories = territoryData;
+            callback(planetDatum);
+        });
+    },
+    allPlanetsDone: function(){
+        console.log(this.newCampaign);
+    },
     getNewPlanetData: function(numberOfPlanets, callback){
-        console.log("getNewPlanetData: numberOfPlanets: " + numberOfPlanets);
         var planets = [];
         for(var i = 0; i <= numberOfPlanets; i++) {
             $.getJSON('../data/blankPlanet.json', function(data){
@@ -71,7 +87,6 @@ Campaignr.Controllers.create = Content.extend({
         }
     },
     getNewTerritoryData: function(numberOfTerritories, callback){
-        console.log("getNewTerritoryData: numberOfTerritories: " + numberOfTerritories);
         var territories = [];
         for(var i = 0; i <= numberOfTerritories; i++) {
             $.getJSON('../data/blankTerritory.json', function(data){
