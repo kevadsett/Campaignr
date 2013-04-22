@@ -41,15 +41,46 @@ Campaignr.Controllers.create = Content.extend({
             self.newCampaign = data.campaign;
             self.newCampaign.owner = "__me";
             self.newCampaign.players[0].name = "__me";
-            $('.planetCreationView').each(function(){
-                var view = this;
-                $.getJSON('../data/blankPlanet.json', function(data){
-                    data.name = $('.planetNameTxt', view).val();
-                    self.newCampaign.planets.push(data);
-                    console.log(self.newCampaign);
-                });
+            self.getNewPlanetData($('.planetCreationView').length, function(planetData){
+                console.log("Got the planets");
+                console.log(planetData.length);
+                for(var i = 0; i < planetData.length; i++){
+                    var currentPlanet = planetData[i];
+                    console.log(currentPlanet);
+                    var context = $('.planetCreationView').eq(i);
+                    var view = $('.territoryCountNumber', context);
+                    console.log(view.val());
+                    self.getNewTerritoryData(view.val(), function(territoryData){
+                        currentPlanet.territories = territoryData;
+                    });
+                }
             });
         });
-        
+    },
+    getNewPlanetData: function(numberOfPlanets, callback){
+        console.log("getNewPlanetData: numberOfPlanets: " + numberOfPlanets);
+        var planets = [];
+        for(var i = 0; i <= numberOfPlanets; i++) {
+            $.getJSON('../data/blankPlanet.json', function(data){
+                if(planets.length < numberOfPlanets){
+                    planets.push(data);
+                } else {
+                    callback(planets);
+                }
+            });
+        }
+    },
+    getNewTerritoryData: function(numberOfTerritories, callback){
+        console.log("getNewTerritoryData: numberOfTerritories: " + numberOfTerritories);
+        var territories = [];
+        for(var i = 0; i <= numberOfTerritories; i++) {
+            $.getJSON('../data/blankTerritory.json', function(data){
+                if(territories.length < numberOfTerritories){
+                    territories.push(data);
+                } else {
+                    callback(territories);
+                }
+            });
+        }
     }
 });
