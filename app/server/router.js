@@ -200,7 +200,7 @@ module.exports = function(app) {
         });
     });
 
-    app.post('/newCampaign', function(req, res){
+    /*app.post('/newCampaign', function(req, res){
         console.log("post /newCampaign");
         var campaign = {};
         var data = req.body;
@@ -227,6 +227,14 @@ module.exports = function(app) {
         res.render('home', {
             title : 'Campaignr'
         });
+    });*/
+    
+    app.post('/createCampaign', function(req, res){
+        console.log("post /createCampaign");
+        var newCampaign = req.body.campaign;
+        newCampaign.owner = req.session.user.user;
+        newCampaign.players[0] = req.session.user.user;
+        console.log(newCampaign);
     });
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
