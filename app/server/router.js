@@ -199,35 +199,6 @@ module.exports = function(app) {
             }
         });
     });
-
-    /*app.post('/newCampaign', function(req, res){
-        console.log("post /newCampaign");
-        var campaign = {};
-        var data = req.body;
-        campaign.name = data.campaignName;
-        campaign.owner = req.session.user.user;
-        campaign.planets = [];
-        for(var i=0; i<data.planetName.length; i++){
-            var planetData = {};
-            planetData.name = data.planetName[i];
-            planetData.territories = [];
-            for(var j=0; j<data.territories[i]; j++){
-                var territoryData = {};
-                territoryData.id = planetData.name + "_ter_" + j;
-                planetData.territories.push(territoryData);
-            }
-            campaign.planets.push(planetData);
-        }
-        var campaignObject = {campaign: campaign};
-        console.log(campaignObject);
-        
-        AM.addCampaign(campaignObject, function(data){
-            console.log(data);
-        });
-        res.render('home', {
-            title : 'Campaignr'
-        });
-    });*/
     
     app.post('/createCampaign', function(req, res){
         console.log("post /createCampaign");
@@ -240,12 +211,6 @@ module.exports = function(app) {
             console.log(error);
         });
         res.render('home', {title: 'Campaignr'});
-        /*var newCampaign = JSON.parse(req.body);
-        console.log(newCampaign);
-        
-        newCampaign.owner = req.session.user.user;
-        newCampaign.players[0] = req.session.user.user;
-        console.log(newCampaign);*/
     });
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
