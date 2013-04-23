@@ -231,10 +231,21 @@ module.exports = function(app) {
     
     app.post('/createCampaign', function(req, res){
         console.log("post /createCampaign");
-        var newCampaign = req.body.campaign;
+        var newCampaign = req.body;
+        newCampaign.owner = req.session.user.user;
+        newCampaign.players[0].name = req.session.user.user;
+        console.log(newCampaign);
+        AM.addCampaign({campaign: newCampaign}, function(data, error){
+            console.log(data);
+            console.log(error);
+        });
+        res.render('home', {title: 'Campaignr'});
+        /*var newCampaign = JSON.parse(req.body);
+        console.log(newCampaign);
+        
         newCampaign.owner = req.session.user.user;
         newCampaign.players[0] = req.session.user.user;
-        console.log(newCampaign);
+        console.log(newCampaign);*/
     });
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });

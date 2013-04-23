@@ -74,7 +74,7 @@ Campaignr.Controllers.create = Content.extend({
     },
     allPlanetsDone: function(){
         console.log(this.newCampaign);
-        $.post('createCampaign', {campaign: this.newCampaign});
+        $.post('createCampaign', this.newCampaign);
     },
     getNewPlanetData: function(numberOfPlanets, callback){
         var planets = [];
