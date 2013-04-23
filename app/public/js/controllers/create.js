@@ -39,6 +39,7 @@ Campaignr.Controllers.create = Content.extend({
         var self = this;
         $.getJSON('../data/blankCampaign.json', function(data){
             self.newCampaign = data.campaign;
+            self.newCampaign.name = $('#campaignNameTxt').val();
             self.newCampaign.owner = "__me";
             self.newCampaign.players[0].name = "__me";
             var numberOfPlanets = $('.planetCreationView').length;
@@ -73,6 +74,7 @@ Campaignr.Controllers.create = Content.extend({
     },
     allPlanetsDone: function(){
         console.log(this.newCampaign);
+        $.post('createCampaign', {campaign: this.newCampaign});
     },
     getNewPlanetData: function(numberOfPlanets, callback){
         var planets = [];
