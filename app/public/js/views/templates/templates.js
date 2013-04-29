@@ -6,7 +6,10 @@ helpers = helpers || Handlebars.helpers; partials = partials || Handlebars.parti
   var buffer = "", stack1, self=this;
 
 
-  buffer += "<div id=\"campaignHeader\"></div>\r\n<form id=\"newCampaignForm\" action=\"newCampaign\" method=\"post\">\r\n    <input name=\"campaignName\" placeholder=\"New Campaign Name\" id=\"campaignNameTxt\"/>\r\n    <div id=\"planetCreationViews\" class=\"hidden\">\r\n        <div id=\"planetList\">\r\n            ";
+  buffer += "<div id=\"campaignHeader\"></div>\r\n<form id=\"newCampaignForm\" action=\"newCampaign\" method=\"post\">\r\n    <input name=\"campaignName\" placeholder=\"New Campaign Name\" id=\"campaignNameTxt\"/>\r\n    <div id=\"factionCreationViews\" class=\"hidden\">\r\n        <div id=\"factionList\">\r\n            ";
+  stack1 = self.invokePartial(partials.newFactionPartial, 'newFactionPartial', depth0, helpers, partials, data);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n        </div>\r\n        <div id=\"newFactionCreatorButton\">\r\n            <a href=\"#\">+</a>\r\n        </div>\r\n    </div>\r\n    <div id=\"planetCreationViews\" class=\"hidden\">\r\n        <div id=\"planetList\">\r\n            ";
   stack1 = self.invokePartial(partials.newPlanetPartial, 'newPlanetPartial', depth0, helpers, partials, data);
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n        </div>\r\n        <div id=\"newPlanetCreatorButton\">\r\n            <a href=\"#\">+</a>\r\n        </div>\r\n    </div>\r\n    <input type=\"button\" value=\"Done\" id=\"createCampaignButton\" class=\"hidden\"/>\r\n</form>\r\n<div id=\"url\" class=\"hidden\">\r\n</div>\r\n<div id=\"planetCreation\">\r\n</div>";
