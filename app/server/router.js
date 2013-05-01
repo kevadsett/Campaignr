@@ -199,34 +199,18 @@ module.exports = function(app) {
             }
         });
     });
-
-    app.post('/newCampaign', function(req, res){
-        console.log("post /newCampaign");
-        var campaign = {};
-        var data = req.body;
-        campaign.name = data.campaignName;
-        campaign.owner = req.session.user.user;
-        campaign.planets = [];
-        for(var i=0; i<data.planetName.length; i++){
-            var planetData = {};
-            planetData.name = data.planetName[i];
-            planetData.territories = [];
-            for(var j=0; j<data.territories[i]; j++){
-                var territoryData = {};
-                territoryData.id = planetData.name + "_ter_" + j;
-                planetData.territories.push(territoryData);
-            }
-            campaign.planets.push(planetData);
-        }
-        var campaignObject = {campaign: campaign};
-        console.log(campaignObject);
-        
-        AM.addCampaign(campaignObject, function(data){
+    
+    app.post('/createCampaign', function(req, res){
+        console.log("post /createCampaign");
+        var newCampaign = req.body;
+        newCampaign.owner = req.session.user.user;
+        newCampaign.players[0].name = req.session.user.user;
+        console.log(newCampaign);
+        AM.addCampaign({campaign: newCampaign}, function(data, error){
             console.log(data);
+            console.log(error);
         });
-        res.render('home', {
-            title : 'Campaignr'
-        });
+        res.render('home', {title: 'Campaignr'});
     });
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });

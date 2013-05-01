@@ -1,6 +1,14 @@
 <div id="campaignHeader"></div>
 <form id="newCampaignForm" action="newCampaign" method="post">
     <input name="campaignName" placeholder="New Campaign Name" id="campaignNameTxt"/>
+    <div id="factionCreationViews" class="hidden">
+        <div id="factionList">
+            {{> newFactionPartial}}
+        </div>
+        <div id="newFactionCreatorButton">
+            <a href="#">+</a>
+        </div>
+    </div>
     <div id="planetCreationViews" class="hidden">
         <div id="planetList">
             {{> newPlanetPartial}}

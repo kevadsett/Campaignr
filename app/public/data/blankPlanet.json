@@ -1,10 +1,6 @@
 {
-    "name": null,
-    "territories": [{
-        "id": null,
-        "type": null,
-        "owner": null,
-        "notes": null
-    }],
-    "notes": null
+    "id": " ",
+    "name": " ",
+    "territories": [" "],
+    "notes": " "
 }

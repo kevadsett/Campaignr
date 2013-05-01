@@ -8,21 +8,8 @@
             "points": 0,
             "notes": null
         }],
-        "planets": [],
-            "notes": null
-        }],
-        "battles": [{
-            "id": null,
-            "players": [null],
-            "planet": null,
-            "winningPlayers": [null],
-            "winningFaction": null,
-            "notes": null
-        }],
-        "factions": [{
-            "name": null,
-            "points": 0,
-            "notes": null
-        }]
+        "planets": [""],
+        "battles": [""],
+        "factions": [""]
     }
 }

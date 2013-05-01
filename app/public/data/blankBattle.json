@@ -1,8 +1,8 @@
 {
-    "id": null,
-    "players": [null],
-    "planet": null,
-    "winningPlayers": [null],
-    "winningFaction": null,
-    "notes": null
+    "id": "",
+    "players": [""],
+    "planet": "",
+    "winningPlayers": [""],
+    "winningFaction": "",
+    "notes": ""
 }
