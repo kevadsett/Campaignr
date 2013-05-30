@@ -234,6 +234,7 @@ module.exports = function(app) {
     app.get('/joinCampaign', function(req, res){
         console.log("get /joinCampaign");
         var campaignID = req.query["campaignID"];
+        // toDO: write validatePlayerIsInvited function
         AM.validatePlayerIsInvited(req.session.user, campaignID, function(playerInvited){
             // if player invited, add player to campaign player list, and display choose faction screen
         });
