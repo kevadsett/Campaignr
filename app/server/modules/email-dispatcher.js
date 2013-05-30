@@ -15,11 +15,33 @@ EM.dispatchResetPasswordLink = function(account, callback){
         to:     account.email,
         subject:    'Password reset',
         text:       'Something went wrong... :(',
-        attachment: EM.composeEmail(account)
+        attachment: EM.composeResetPassEmail(account)
     }, callback);
 }
 
-EM.composeEmail = function(userAccount){
+EM.composeResetPassEmail = function(userAccount){
+    var link = 'http://campaign-map.herokuapp.com/reset-password?e=' + userAccount.email + '&p=' + userAccount.pass;
+    var html = "<html><body>";
+        html += "Hi " + userAccount.name + ", <br/><br/>";
+        html += "Your username is:: <b>" + userAccount.user + "</b><br/><br/>";
+        html += "<a href='" + link + "'>Please click here to reset your password</a><br/><br/>";
+        html += "Cheers,<br/>";
+        html += "<a href='http://www.twitter.com/kevatron400'>Kevatron400</a><br/><br/>";
+        html += "</body></html>";
+    return [{data: html, alternative:true}];
+}
+
+EM.dispatchJoinCampaignLink = function(senderAccount, toEmail, campaignID, callback) {
+    EM.server.send({
+        from:       senderAccount.email,
+        to:         toEmail,
+        subject:    "Please join my campaign!",
+        text:       "I'm not sure where this goes",
+        attachment: EM.composeJoinCampaignEmail(campaignID)
+    }, callback);
+}
+
+EM.composeResetPassEmail = function(userAccount){
     var link = 'http://campaign-map.herokuapp.com/reset-password?e=' + userAccount.email + '&p=' + userAccount.pass;
     var html = "<html><body>";
         html += "Hi " + userAccount.name + ", <br/><br/>";

@@ -1,4 +1,8 @@
 <div id="slide-holder">
+    <div id="invitePlayerForm">
+        <input type="email" placeholder="enter invitee email" id="inviteEmail"/>
+        <input type="button">Invite player</div>
+    </div>
     {{#each campaign.planets}}
         <div id="{{uid}}" class="planet-slide">
             <canvas id="canvas-{{uid}}"class="planet-canvas" width="300" height="300"></canvas>

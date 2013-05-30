@@ -4,8 +4,10 @@ Campaignr.Controllers.edit = Content.extend({
         this.data = Campaignr.CurrentCampaign.toJSON();
     },
     setup: function () {
+        
+        /*
         _.each(Campaignr.CurrentCampaign.get('planets'), function(planet){
             new editPlanetController({collection: planet});
-        });
+        });*/
     }
 });

@@ -212,6 +212,32 @@ module.exports = function(app) {
         });
         res.render('home', {title: 'Campaignr'});
     });
+    
+    app.post('/inviteToCampaign', function(req, res){
+        console.log("post /inviteToCampaign");
+        var campaignID = req.param('campaignID');
+        var senderEmail = req.session.user.email;
+        var toEmails = req.param('toEmails');
+        for(var i=0; i<toEmails.length; i++) {
+            EM.dispatchJoinCampaignLink(req.session.user, toEmails[i], campaignID, function(error, output){
+                if(!error) {
+                //    res.send('ok', 200);
+                }else{
+                    res.send('email-server-error', 400);
+                    for(k in error) console.log('error: ', k, error[k]);
+                }
+            });
+        }
+            
+    });
+    
+    app.get('/joinCampaign', function(req, res){
+        console.log("get /joinCampaign");
+        var campaignID = req.query["campaignID"];
+        AM.validatePlayerIsInvited(req.session.user, campaignID, function(playerInvited){
+            // if player invited, add player to campaign player list, and display choose faction screen
+        });
+    });
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
 };
