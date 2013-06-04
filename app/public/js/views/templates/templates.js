@@ -35,7 +35,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div id=\"slide-holder\">\r\n    <div id=\"invitePlayerForm\">\r\n        <input type=\"email\" placeholder=\"enter invitee email\" id=\"inviteEmail\"/>\r\n        <input type=\"button\" name=\"Invite player\"/>\r\n    </div>\r\n    ";
+  buffer += "<div id=\"slide-holder\">\r\n    <div id=\"invitePlayerForm\">\r\n        <input type=\"email\" placeholder=\"enter invitee email(s)\" id=\"inviteEmail\"/>\r\n        <input type=\"button\" value=\"Invite player\" id=\"sendInviteBtn\"/>\r\n    </div>\r\n    ";
   stack2 = helpers.each.call(depth0, ((stack1 = depth0.campaign),stack1 == null || stack1 === false ? stack1 : stack1.planets), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\r\n</div>";

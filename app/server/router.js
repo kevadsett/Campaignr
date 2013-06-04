@@ -216,8 +216,11 @@ module.exports = function(app) {
     app.post('/inviteToCampaign', function(req, res){
         console.log("post /inviteToCampaign");
         var campaignID = req.param('campaignID');
+        console.log("campaignID: " + campaignID);
         var senderEmail = req.session.user.email;
+        console.log("senderEmail: " + senderEmail);
         var toEmails = req.param('toEmails');
+        console.log(toEmails);
         for(var i=0; i<toEmails.length; i++) {
             EM.dispatchJoinCampaignLink(req.session.user, toEmails[i], campaignID, function(error, output){
                 if(!error) {
