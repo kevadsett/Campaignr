@@ -37,12 +37,12 @@ EM.dispatchJoinCampaignLink = function(senderAccount, toEmail, campaignID, callb
         to:         toEmail,
         subject:    "Please join my campaign!",
         text:       "I'm not sure where this goes",
-        attachment: EM.composeJoinCampaignEmail(campaignID, senderAccount)
+        attachment: EM.composeJoinCampaignEmail(campaignID, senderAccount, toEmail)
     }, callback);
 }
 
 EM.composeJoinCampaignEmail = function(campaignIDToJoin, senderAccount){
-    var link = 'http:/localhost:3000/joinCampaign?cid=' + campaignIDToJoin;
+    var link = 'http:/localhost:3000/joinCampaign?cid=' + campaignIDToJoin + '&e=' + toEmail;
     var html = "<html><body>";
         html += "Hi, <br/><br/>";
         html += "Your buddy, <b>" + senderAccount.user + "</b>, wants you to join their campaign.<br/><br/>";
