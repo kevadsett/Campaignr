@@ -32,6 +32,7 @@ EM.composeResetPassEmail = function(userAccount){
 }
 
 EM.dispatchJoinCampaignLink = function(senderAccount, toEmail, campaignID, callback) {
+    console.log("senderAccount.email: " + senderAccount.email + ", toEmail: " + toEmail + ", campaignID: " + campaignID)
     EM.server.send({
         from:       senderAccount.email,
         to:         toEmail,
@@ -41,7 +42,7 @@ EM.dispatchJoinCampaignLink = function(senderAccount, toEmail, campaignID, callb
     }, callback);
 }
 
-EM.composeJoinCampaignEmail = function(campaignIDToJoin, senderAccount){
+EM.composeJoinCampaignEmail = function(campaignIDToJoin, senderAccount, toEmail){
     var link = 'http:/localhost:3000/joinCampaign?cid=' + campaignIDToJoin + '&e=' + toEmail;
     var html = "<html><body>";
         html += "Hi, <br/><br/>";

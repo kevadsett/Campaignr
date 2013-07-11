@@ -223,8 +223,9 @@ module.exports = function(app) {
         console.log(toEmails);
         for(var i=0; i<toEmails.length; i++) {
             EM.dispatchJoinCampaignLink(req.session.user, toEmails[i], campaignID, function(error, output){
-                if(!error) {
-                //    res.send('ok', 200);
+                console.log(output);
+                if(output) {
+                    res.send('ok', 200);
                 }else{
                     res.send('email-server-error', 400);
                     for(k in error) console.log('error: ', k, error[k]);
@@ -237,9 +238,11 @@ module.exports = function(app) {
     app.get('/joinCampaign', function(req, res){
         console.log("get /joinCampaign");
         var campaignID = req.query["campaignID"];
+        var invitedPlayerEmail = req.query["e"];
+        console.log(campaignID);
         // toDO: write validatePlayerIsInvited function
-        AM.validatePlayerIsInvited(req.session.user, campaignID, function(playerInvited){
-            // if player invited, add player to campaign player list, and display choose faction screen
+        AM.validatePlayerIsInvited(invitedPlayerEmail, campaignID, function(playerInvited){
+            res.render('home', {title: 'Campaignr'});
         });
     });
 

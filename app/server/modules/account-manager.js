@@ -133,6 +133,12 @@ exports.delAllRecords = function(callback){
     accounts.remove({}, callback); // reset accounts collection for testing
 }
 
+exports.validatePlayerIsInvited = function(user, campaignID, callback){
+    console.log(user);
+    console.log(campaignID);
+    callback(false);
+}
+
 var generateSalt = function(){
     var set = '123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
     var salt = '';
