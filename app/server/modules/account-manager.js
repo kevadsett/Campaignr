@@ -55,7 +55,7 @@ exports.manualLogin = function(user, pass, callback){
         if(output == null){
             callback("user-not-found");
         }else{
-            validatePassword(pass, output.pass, function(err, res){
+            validateHash(pass, output.pass, function(err, res){
                 if(res){
                     callback(null, output);
                 }else{
@@ -133,10 +133,52 @@ exports.delAllRecords = function(callback){
     accounts.remove({}, callback); // reset accounts collection for testing
 }
 
+exports.addEmailToInvitedList = function(email, campaignID, callback){
+    console.log("AccountManager:: addEmailToInvitedList");
+    var secureEmail;
+    saltAndHash(email, function(hash){
+        campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
+            if(!error){
+                secureEmail = hash;
+                var campaign = output[0].campaign;
+                console.log(campaign);
+                if(campaign.invitedList && campaign.invitedList.indexOf(secureEmail) == -1){
+                    campaign.invitedList.push(secureEmail);
+                }else{
+                    campaign.invitedList = [secureEmail];
+                }
+            } else {
+                console.log(error);
+                return null;
+            }
+            campaigns.update(
+                { _id: db.ObjectId("" + campaignID)},
+                {
+                    $set: { 'campaign.invitedList' : campaign.invitedList }
+                }
+            );
+            callback(email, secureEmail);
+        });
+    });
+    
+}
+
 exports.validatePlayerIsInvited = function(user, campaignID, callback){
-    console.log(user);
-    console.log(campaignID);
-    callback(false);
+    campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
+        if(!error){
+            if(output.length > 1) {
+                campaign = output[0].campaign;
+                console.log(campaign);
+                if(campaign.invitedList.indexOf(user) != -1){
+                    callback(true);
+                } else {
+                    callback(false);
+                }
+            } else {
+                callback(false);
+            }
+        }
+    });
 }
 
 var generateSalt = function(){
@@ -158,7 +200,7 @@ var saltAndHash = function(pass, callback){
     callback(salt + md5(pass + salt));
 }
 
-var validatePassword = function(plainPass, hashedPass, callback){
+var validateHash = function(plainPass, hashedPass, callback){
     var salt = hashedPass.substr(0, 10);
     var validHash = salt + md5(plainPass + salt);
     callback(null, hashedPass === validHash);

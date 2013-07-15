@@ -31,19 +31,19 @@ EM.composeResetPassEmail = function(userAccount){
     return [{data: html, alternative:true}];
 }
 
-EM.dispatchJoinCampaignLink = function(senderAccount, toEmail, campaignID, callback) {
-    console.log("senderAccount.email: " + senderAccount.email + ", toEmail: " + toEmail + ", campaignID: " + campaignID)
+EM.dispatchJoinCampaignLink = function(senderAccount, toEmail, secureEmail, campaignID, callback) {
+    console.log("senderAccount.email: " + senderAccount.email + ", toEmail: " + toEmail + ", secureEmail: " + secureEmail + ", campaignID: " + campaignID)
     EM.server.send({
         from:       senderAccount.email,
         to:         toEmail,
         subject:    "Please join my campaign!",
         text:       "I'm not sure where this goes",
-        attachment: EM.composeJoinCampaignEmail(campaignID, senderAccount, toEmail)
+        attachment: EM.composeJoinCampaignEmail(campaignID, senderAccount, secureEmail)
     }, callback);
 }
 
-EM.composeJoinCampaignEmail = function(campaignIDToJoin, senderAccount, toEmail){
-    var link = 'http:/localhost:3000/joinCampaign?cid=' + campaignIDToJoin + '&e=' + toEmail;
+EM.composeJoinCampaignEmail = function(campaignIDToJoin, senderAccount, secureEmail){
+    var link = 'http:/localhost:3000/joinCampaign?cid=' + campaignIDToJoin + '&e=' + secureEmail;
     var html = "<html><body>";
         html += "Hi, <br/><br/>";
         html += "Your buddy, <b>" + senderAccount.user + "</b>, wants you to join their campaign.<br/><br/>";

@@ -220,16 +220,17 @@ module.exports = function(app) {
         var senderEmail = req.session.user.email;
         console.log("senderEmail: " + senderEmail);
         var toEmails = req.param('toEmails');
-        console.log(toEmails);
         for(var i=0; i<toEmails.length; i++) {
-            EM.dispatchJoinCampaignLink(req.session.user, toEmails[i], campaignID, function(error, output){
-                console.log(output);
-                if(output) {
-                    res.send('ok', 200);
-                }else{
-                    res.send('email-server-error', 400);
-                    for(k in error) console.log('error: ', k, error[k]);
-                }
+            AM.addEmailToInvitedList(toEmails[i], campaignID, function(originalEmail, secureEmail){
+                EM.dispatchJoinCampaignLink(req.session.user, originalEmail, secureEmail, campaignID, function(error, output){
+                    console.log(output);
+                    if(output) {
+                        res.send('ok', 200);
+                    }else{
+                        res.send('email-server-error', 400);
+                        for(k in error) console.log('error: ', k, error[k]);
+                    }
+                });
             });
         }
             
@@ -237,12 +238,12 @@ module.exports = function(app) {
     
     app.get('/joinCampaign', function(req, res){
         console.log("get /joinCampaign");
-        var campaignID = req.query["campaignID"];
+        var campaignID = req.query["cid"];
         var invitedPlayerEmail = req.query["e"];
-        console.log(campaignID);
-        // toDO: write validatePlayerIsInvited function
+        console.log("campaignID: " + campaignID);
+        console.log("invitedPlayerEmail: " + invitedPlayerEmail);
         AM.validatePlayerIsInvited(invitedPlayerEmail, campaignID, function(playerInvited){
-            res.render('home', {title: 'Campaignr'});
+            res.render('joinCampaign', {playerInvited: playerInvited});
         });
     });
 
