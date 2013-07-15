@@ -154,7 +154,7 @@ exports.addEmailToInvitedList = function(email, campaignID, callback){
             campaigns.update(
                 { _id: db.ObjectId("" + campaignID)},
                 {
-                    $set: { 'campaign.invitedList' : campaign.invitedList }
+                    $set: { 'invitedList' : campaign.invitedList }
                 }
             );
             callback(email, secureEmail);
@@ -167,9 +167,9 @@ exports.validatePlayerIsInvited = function(user, campaignID, callback){
     campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
         if(!error){
             if(output.length > 1) {
-                campaign = output[0].campaign;
-                console.log(campaign);
-                if(campaign.invitedList.indexOf(user) != -1){
+                invitedList = output[0].invitedList;
+                console.log(invitedList);
+                if(invitedList && invitedList.indexOf(user) != -1){
                     callback(true);
                 } else {
                     callback(false);
