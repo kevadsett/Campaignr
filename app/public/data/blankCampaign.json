@@ -6,7 +6,8 @@
             "name": null,
             "faction": null,
             "points": 0,
-            "notes": null
+            "notes": null,
+            "joined": false
         }],
         "planets": [""],
         "battles": [""],

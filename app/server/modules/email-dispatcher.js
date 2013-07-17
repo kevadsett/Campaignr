@@ -31,23 +31,50 @@ EM.composeResetPassEmail = function(userAccount){
     return [{data: html, alternative:true}];
 }
 
-EM.dispatchJoinCampaignLink = function(senderAccount, toEmail, secureEmail, campaignID, callback) {
+EM.dispatchInvitedToCampaignEmail = function(senderAccount, toEmail, campaignName, callback) {
+    console.log("EmailDispatcher:: dispatchInvitedToCampaignEmail");
+    console.log("senderAccount.email: " + senderAccount.email + ", toEmail: " + toEmail + ", campaignName: " + campaignName)
+    EM.server.send({
+        from:       senderAccount.email,
+        to:         toEmail,
+        subject:    "Please join my campaign!",
+        text:       "text",
+        attachment: EM.composeJoinCampaignEmail(campaignName, senderAccount)
+    }, callback);
+}
+
+EM.composeJoinCampaignEmail = function(campaignName, senderAccount){
+    console.log("EmailDispatcher:: composeJoinCampaignEmail");
+    var link = 'http:/localhost:3000/';
+    var html = "<html><body>";
+        html += "Hi, <br/><br/>";
+        html += "Your buddy, <b>" + senderAccount.user + "</b>, wants you to join their campaign: " + campaignName + ".<br/><br/>";
+        html += "<a href='" + link + "'>Sign in to your account</a> to accept their invitation.<br/><br/>";
+        html += "Cheers,<br/>";
+        html += "The Campaignr Team<br/><br/>";
+        html += "</body></html>";
+    return [{data: html, alternative:true}];
+}
+
+EM.dispatchSignupToCampaignrEmail = function(senderAccount, toEmail, secureEmail, campaignID, callback){
+    console.log("EmailDispatcher:: dispatchSignupToCampaignrEmail");
     console.log("senderAccount.email: " + senderAccount.email + ", toEmail: " + toEmail + ", secureEmail: " + secureEmail + ", campaignID: " + campaignID)
     EM.server.send({
         from:       senderAccount.email,
         to:         toEmail,
         subject:    "Please join my campaign!",
-        text:       "I'm not sure where this goes",
-        attachment: EM.composeJoinCampaignEmail(campaignID, senderAccount, secureEmail)
+        text:       "text",
+        attachment: EM.composeSignUpEmail(campaignID, senderAccount, secureEmail)
     }, callback);
 }
-
-EM.composeJoinCampaignEmail = function(campaignIDToJoin, senderAccount, secureEmail){
-    var link = 'http:/localhost:3000/joinCampaign?cid=' + campaignIDToJoin + '&e=' + secureEmail;
+                                  
+EM.composeSignUpEmail = function(campaignIDToJoin, senderAccount, secureEmail) {
+    var link = 'http:/localhost:3000/signup?cid=' + campaignIDToJoin + '&e=' + secureEmail;
     var html = "<html><body>";
         html += "Hi, <br/><br/>";
-        html += "Your buddy, <b>" + senderAccount.user + "</b>, wants you to join their campaign.<br/><br/>";
+        html += "Your buddy, <b>" + senderAccount.name + "</b>, wants you to join their campaign on <b>Campaignr</b>.<br/><br/>";
         html += "<a href='" + link + "'>Please click here to accept their invite.</a><br/><br/>";
+        html += "Please note, the above link is personalised to you. Please do not forward it to anyone.<br/><br/>";
         html += "Cheers,<br/>";
         html += "The Campaignr Team<br/><br/>";
         html += "</body></html>";

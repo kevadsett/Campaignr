@@ -216,6 +216,46 @@ module.exports = function(app) {
     app.post('/inviteToCampaign', function(req, res){
         console.log("post /inviteToCampaign");
         var campaignID = req.param('campaignID');
+        var senderEmail = req.session.user.email;
+        var toEmails = req.param('toEmails');
+        for(var i=0; i<toEmails.length; i++) {
+            var newPlayerEmail = toEmails[i];
+            AM.checkUserExists(newPlayerEmail, function(userExists){
+                if(userExists){
+                    console.log(newPlayerEmail);
+                    AM.addPlayerToCampaign(campaignID, newPlayerEmail, function(success){
+                        if(success) {
+                            AM.getCampaignNameByID(campaignID, function(campaignName){
+                                console.log("campaignName: " + campaignName);
+                                EM.dispatchInvitedToCampaignEmail(req.session.user, newPlayerEmail, campaignName, function(error, output){
+                                    console.log(error);
+                                    if(!error) {
+                                        res.send('ok', 200);
+                                    } else {
+                                        res.send('email-server-error', 400);
+                                        for(k in error) console.log('error: ', k, error[k]);
+                                    }
+                                });
+                            });
+                        }
+                    });
+                    
+                } else {
+                    AM.addPotentialNewUserToCampaign(campaignID, newPlayerEmail, function(secureEmail){
+                        EM.dispatchSignupToCampaignrEmail(req.session.user, newPlayerEmail, secureEmail, campaignID, function(error, output){
+                            if(!error) {
+                                res.send('ok', 200);
+                            }else{
+                                res.send('email-server-error', 400);
+                                for(k in error) console.log('error: ', k, error[k]);
+                            }
+                        });
+                    });
+                }
+            });
+        }
+        /*
+        var campaignID = req.param('campaignID');
         console.log("campaignID: " + campaignID);
         var senderEmail = req.session.user.email;
         console.log("senderEmail: " + senderEmail);
@@ -232,7 +272,7 @@ module.exports = function(app) {
                     }
                 });
             });
-        }
+        }*/
             
     });
     
@@ -243,6 +283,9 @@ module.exports = function(app) {
         console.log("campaignID: " + campaignID);
         console.log("invitedPlayerEmail: " + invitedPlayerEmail);
         AM.validatePlayerIsInvited(invitedPlayerEmail, campaignID, function(playerInvited){
+            if(playerInvited) {
+                console.log(req.session.user);
+            }
             res.render('joinCampaign', {playerInvited: playerInvited});
         });
     });

@@ -133,14 +133,87 @@ exports.delAllRecords = function(callback){
     accounts.remove({}, callback); // reset accounts collection for testing
 }
 
-exports.addEmailToInvitedList = function(email, campaignID, callback){
-    console.log("AccountManager:: addEmailToInvitedList");
-    var secureEmail;
+exports.validatePlayerIsInvited = function(user, campaignID, callback){
+    console.log("AccountManager:: validatePlayerIsInvited");
+    campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
+        if(!error){
+            console.log(user);
+            console.log(output[0]);
+            if(output.length > 0) {
+                invitedList = output[0].invitedList;
+                console.log(invitedList);
+                if(invitedList && invitedList.indexOf(user) != -1){
+                    callback(true);
+                } else {
+                    callback(false);
+                }
+            } else {
+                callback(false);
+            }
+        }
+    });
+}
+
+exports.addPlayerToCampaign = function(campaignID, playerEmail, callback){
+    console.log("AccountManager:: addPlayerToCampaign");
+    campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
+        if (output.length == 1) {
+            accounts.findOne({email: playerEmail}, function(err, out){
+                if (out) {
+                    var playerObj = {
+                        name: out.user,
+                        faction: null,
+                        points: "0",
+                        notes: null,
+                        joined: "false"
+                    };
+                    console.log(playerObj);
+                    console.log(output[0].campaign);
+                    output[0].campaign.players.push(playerObj);
+                    campaigns.update(
+                        { _id: db.ObjectId("" + campaignID)},
+                        {
+                            $set: { 'campaign.players' : output[0].campaign.players }
+                        }
+                    );
+                    callback(true);
+                } else {
+                    console.log("specified player email not found");
+                    callback(false);
+                }
+            });
+        } else if (campaign.length > 1){
+            console.log("error:: duplicate campaign IDs!");
+            callback(false);
+        } else {
+            console.log("error:: no campaign found with specified ID");
+            callback(false);
+        }
+    });
+}
+
+exports.getCampaignNameByID = function(campaignID, callback) {
+    console.log("AccountManager:: getCampaignNameByID");
+    campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, data){
+        if(data.length == 1){
+            console.log(data[0]);
+            console.log("id: " + campaignID + ", name: " + data[0].campaign.name);
+            callback(data[0].campaign.name);
+        } else {
+            callback(null);
+        }
+    });
+}
+
+exports.addPotentialNewUserToCampaign = function(campaignID, email, callback) {
+    console.log("AccountManager:: addPotentialNewUserToCampaign");
+    console.log("campaignID: " + campaignID + ", email: " + email);
+    var secureEmail = "";
     saltAndHash(email, function(hash){
-        campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
-            if(!error){
+        campaigns.findOne({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
+            if(output){
                 secureEmail = hash;
-                var campaign = output[0].campaign;
+                var campaign = output.campaign;
                 console.log(campaign);
                 if(campaign.invitedList && campaign.invitedList.indexOf(secureEmail) == -1){
                     campaign.invitedList.push(secureEmail);
@@ -157,27 +230,21 @@ exports.addEmailToInvitedList = function(email, campaignID, callback){
                     $set: { 'invitedList' : campaign.invitedList }
                 }
             );
-            callback(email, secureEmail);
+            accounts.findOne({email: email}, function(err, out){
+                if(out) {
+                    out.emailHash = secureEmail;
+                    accounts.save(out, {safe:true}, function(e,o){callback(email, secureEmail);});
+                }
+            });
         });
     });
-    
 }
 
-exports.validatePlayerIsInvited = function(user, campaignID, callback){
-    campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
-        if(!error){
-            if(output.length > 1) {
-                invitedList = output[0].invitedList;
-                console.log(invitedList);
-                if(invitedList && invitedList.indexOf(user) != -1){
-                    callback(true);
-                } else {
-                    callback(false);
-                }
-            } else {
-                callback(false);
-            }
-        }
+exports.checkUserExists = function(userEmail, callback) {
+    console.log("AccountManager:: checkUserExists");
+    accounts.findOne({email: userEmail}, function(err, out){
+        console.log(out);
+        callback(out != null);
     });
 }
 

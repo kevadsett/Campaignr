@@ -59,6 +59,7 @@ Campaignr.Controllers.create = Content.extend({
             self.newCampaign.name = $('#campaignNameTxt').val();
             self.newCampaign.owner = "__me";
             self.newCampaign.players[0].name = "__me";
+            self.newCampaign.players[0].joined = "true";
             var numberOfFactions = $('.factionCreationView').length;
             var populatedFactions = 0;
             self.newCampaign.factions = new Array(numberOfFactions);
