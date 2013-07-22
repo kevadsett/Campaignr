@@ -234,6 +234,8 @@ exports.addPotentialNewUserToCampaign = function(campaignID, email, callback) {
                 if(out) {
                     out.emailHash = secureEmail;
                     accounts.save(out, {safe:true}, function(e,o){callback(email, secureEmail);});
+                } else {
+                    callback(email, secureEmail);
                 }
             });
         });
@@ -243,7 +245,7 @@ exports.addPotentialNewUserToCampaign = function(campaignID, email, callback) {
 exports.checkUserExists = function(userEmail, callback) {
     console.log("AccountManager:: checkUserExists");
     accounts.findOne({email: userEmail}, function(err, out){
-        console.log(out);
+        console.log("user exists: " + (out != null));
         callback(out != null);
     });
 }

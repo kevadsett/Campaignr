@@ -2,6 +2,7 @@
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
+var url = require('url');
 
 module.exports = function(app) {
 
@@ -125,7 +126,9 @@ module.exports = function(app) {
 
     app.get('/signup', function(req, res){
 		console.log("get /signup");
-        res.render('signup', {title: 'Signup', countries: CT});
+        console.log(req.query);
+        var udata = {email:req.query.m};
+        res.render('signup', {path: url.parse(req.url).pathname, title: 'Signup', udata:udata, countries: CT});
     });
 
     app.post('/signup', function(req, res){
@@ -241,8 +244,9 @@ module.exports = function(app) {
                     });
                     
                 } else {
-                    AM.addPotentialNewUserToCampaign(campaignID, newPlayerEmail, function(secureEmail){
-                        EM.dispatchSignupToCampaignrEmail(req.session.user, newPlayerEmail, secureEmail, campaignID, function(error, output){
+                    AM.addPotentialNewUserToCampaign(campaignID, newPlayerEmail, function(email, secureEmail){
+                        EM.dispatchSignupToCampaignrEmail(req.session.user, email, secureEmail, campaignID, function(error, output){
+                            console.log(error);
                             if(!error) {
                                 res.send('ok', 200);
                             }else{
@@ -254,26 +258,6 @@ module.exports = function(app) {
                 }
             });
         }
-        /*
-        var campaignID = req.param('campaignID');
-        console.log("campaignID: " + campaignID);
-        var senderEmail = req.session.user.email;
-        console.log("senderEmail: " + senderEmail);
-        var toEmails = req.param('toEmails');
-        for(var i=0; i<toEmails.length; i++) {
-            AM.addEmailToInvitedList(toEmails[i], campaignID, function(originalEmail, secureEmail){
-                EM.dispatchJoinCampaignLink(req.session.user, originalEmail, secureEmail, campaignID, function(error, output){
-                    console.log(output);
-                    if(output) {
-                        res.send('ok', 200);
-                    }else{
-                        res.send('email-server-error', 400);
-                        for(k in error) console.log('error: ', k, error[k]);
-                    }
-                });
-            });
-        }*/
-            
     });
     
     app.get('/joinCampaign', function(req, res){

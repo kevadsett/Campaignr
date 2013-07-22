@@ -45,7 +45,7 @@ EM.dispatchInvitedToCampaignEmail = function(senderAccount, toEmail, campaignNam
 
 EM.composeJoinCampaignEmail = function(campaignName, senderAccount){
     console.log("EmailDispatcher:: composeJoinCampaignEmail");
-    var link = 'http:/localhost:3000/';
+    var link = 'http://localhost:3000/';
     var html = "<html><body>";
         html += "Hi, <br/><br/>";
         html += "Your buddy, <b>" + senderAccount.user + "</b>, wants you to join their campaign: " + campaignName + ".<br/><br/>";
@@ -64,12 +64,12 @@ EM.dispatchSignupToCampaignrEmail = function(senderAccount, toEmail, secureEmail
         to:         toEmail,
         subject:    "Please join my campaign!",
         text:       "text",
-        attachment: EM.composeSignUpEmail(campaignID, senderAccount, secureEmail)
+        attachment: EM.composeSignUpEmail(campaignID, senderAccount, secureEmail, toEmail)
     }, callback);
 }
                                   
-EM.composeSignUpEmail = function(campaignIDToJoin, senderAccount, secureEmail) {
-    var link = 'http:/localhost:3000/signup?cid=' + campaignIDToJoin + '&e=' + secureEmail;
+EM.composeSignUpEmail = function(campaignIDToJoin, senderAccount, secureEmail, email) {
+    var link = 'http://localhost:3000/signup?cid=' + campaignIDToJoin + '&e=' + secureEmail + "&m=" + email;
     var html = "<html><body>";
         html += "Hi, <br/><br/>";
         html += "Your buddy, <b>" + senderAccount.name + "</b>, wants you to join their campaign on <b>Campaignr</b>.<br/><br/>";
