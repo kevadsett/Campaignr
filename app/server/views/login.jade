@@ -2,27 +2,19 @@ extends layout
 
 block content
     #login-container
+        h1 CAMPAIGNR
         form(method="post")#login-form.well.span4
-            h1 Hello!
-            p.subheading Please Login To Your Account
-            label Username
             input(type="text", name="user", id="user-tf").span4.required
-            label Password
             input(type="password", name="pass", id="pass-tf").span4.required
-            button(type="submit")#btn-login.btn.btn-primary
-                i.icon-lock.icon-white
-                | Sign in
-            label#remember-me.checkbox Remember Me
-                input(type="checkbox", checked="checked");
+            button(type="submit")#btn-login
+                | Log in
+            a(href="/signup")#create-account Sign up
             .clear-fix
-            hr
-            .btm-links
-                a(href="#")#forgot-password Forgot your password?
-                a(href="/signup")#create-account Create an account
     include modals/alert
     include modals/lost-password
 
 block scripts
+    link(rel='stylesheet', href='/css/login-style.css')
     script(src="/vendor/jquery.min.js");
     script(src="/vendor/jquery.form.js");
     script(src="/vendor/bootstrap-modal.js");
