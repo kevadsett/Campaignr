@@ -86,14 +86,14 @@ module.exports = function(app) {
         }
     });
 
-    app.post('/logout', function(req, res){
-		console.log("post /logout");
-        if(req.param('logout') == 'true'){
-            res.clearCookie('user');
-            res.clearCookie('pass');
-            req.session.destroy(function(error){ res.send('ok', 200) });
-        }
+    app.get('/logout', function(req, res){
+		console.log("get /logout");
+        res.clearCookie('user');
+        res.clearCookie('pass');
+        req.session.destroy(function(error){ res.send('ok', 200) });
+
     });
+    
     app.post('/', function(req, res){
         console.log("post /");
         var campaign = {};
@@ -133,6 +133,7 @@ module.exports = function(app) {
 
     app.post('/signup', function(req, res){
 		console.log("post /signup");
+        console.log(req.query);
         AM.addNewAccount({
             name:       req.param('name'),
             email:      req.param('email'),
@@ -143,6 +144,12 @@ module.exports = function(app) {
             if(error){
                 res.send(error, 400);
             }else{
+                AM.validatePlayerIsInvited(req.query.e, req.query.cid, function(playerIsInvited){
+                    if(playerIsInvited){
+                        AM.addPlayerToCampaign(req.query.cid, req.query.m, function(){
+                        });
+                    }
+                });
                 res.send('ok', 200);
             }
         });
@@ -260,7 +267,7 @@ module.exports = function(app) {
         }
     });
     
-    app.get('/joinCampaign', function(req, res){
+    /*app.get('/joinCampaign', function(req, res){
         console.log("get /joinCampaign");
         var campaignID = req.query["cid"];
         var invitedPlayerEmail = req.query["e"];
@@ -272,7 +279,7 @@ module.exports = function(app) {
             }
             res.render('joinCampaign', {playerInvited: playerInvited});
         });
-    });
+    });*/
 
     app.get('*', function(req, res) { res.render('404', {title: 'Page not found'}) });
 };

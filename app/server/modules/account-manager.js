@@ -137,11 +137,8 @@ exports.validatePlayerIsInvited = function(user, campaignID, callback){
     console.log("AccountManager:: validatePlayerIsInvited");
     campaigns.find({"_id" : db.ObjectId("" + campaignID)}, function(error, output){
         if(!error){
-            console.log(user);
-            console.log(output[0]);
             if(output.length > 0) {
                 invitedList = output[0].invitedList;
-                console.log(invitedList);
                 if(invitedList && invitedList.indexOf(user) != -1){
                     callback(true);
                 } else {
